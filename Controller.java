@@ -34,11 +34,7 @@ class Controller implements ActionListener, KeyListener
 	{
 		switch(e.getKeyCode())
 		{
-			case KeyEvent.VK_RIGHT: keyRight = true; break;
-			case KeyEvent.VK_LEFT: keyLeft = true; break;
-			case KeyEvent.VK_UP: keyUp = true; break;
-			case KeyEvent.VK_DOWN: keyDown = true; break;
-			case KeyEvent.VK_TAB: keyTab = true; break;
+			
 		}
 	}
 
@@ -46,21 +42,21 @@ class Controller implements ActionListener, KeyListener
 	{
 		switch(e.getKeyCode())
 		{
-			case KeyEvent.VK_RIGHT: keyRight = false; break;
-			case KeyEvent.VK_LEFT: keyLeft = false; break;
-			case KeyEvent.VK_UP: keyUp = false; break;
-			case KeyEvent.VK_DOWN: keyDown = false; break;
+			case KeyEvent.VK_DOWN: model.moveCursorDown(); break;
+			case KeyEvent.VK_UP: model.moveCursorUp(); break;
+			case KeyEvent.VK_SHIFT: model.switchTeams(); break;
+			case KeyEvent.VK_SPACE: model.typePlayer(); break;
 		}
 	}
 
 	
 	public void keyTyped(KeyEvent e)
 	{
+
 	}
 
 	public void update()
 	{
-
 
 	}
 
