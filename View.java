@@ -76,9 +76,10 @@ class View extends JPanel
 			// Print the user information on dashboard
 			for (int i = 0; i < model.playerList.size(); i++)
 			{
+				String playerIDText = Integer.toString(model.playerID);
 				g.setColor(new Color(0,0,0));
 				playerInfo = model.playerList.get(i);
-				g.drawString(playerInfo.playerID,playerInfo.menux + 100,playerInfo.menuy+10);
+				g.drawString(playerIDText,playerInfo.menux + 100,playerInfo.menuy+10);
 				g.drawString(playerInfo.playerCodeName, playerInfo.menux+300, playerInfo.menuy+10);
 			}
 		}

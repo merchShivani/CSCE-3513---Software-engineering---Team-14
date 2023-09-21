@@ -9,9 +9,10 @@ class Model
 	int cursorX;
 	int cursorY;
 	boolean typing;
-	String playerID;
+	int playerID;
 	String playerCodeName;
 	Scanner typingObj = new Scanner (System.in);
+	Scanner intObj = new Scanner (System.in);
 
 	PlayerSquare playerSquare;
 	Player playerNew;
@@ -27,6 +28,7 @@ class Model
 
 		squareList = new ArrayList<PlayerSquare>();
 		playerList = new ArrayList<Player>();
+
 
 		// Squares for Red Team
 		for (int i = 0; i < 16; i++)
@@ -47,6 +49,7 @@ class Model
 
 	}
 
+	// Update for Model
 	public void update()
 	{
 		// Start Screen
@@ -61,6 +64,7 @@ class Model
 	}
 
 
+	// Cursor goes down Y axis
 	public void moveCursorDown()
 	{
 		if (cursorY < 595)
@@ -69,6 +73,7 @@ class Model
 		}
 	}
 
+	// Cursor goes up Y axis
 	public void moveCursorUp()
 	{
 		if (cursorY > 145)
@@ -77,6 +82,7 @@ class Model
 		}
 	}
 
+	// Cursor will switch team
 	public void switchTeams()
 	{
 		if (cursorX == 105)
@@ -89,14 +95,16 @@ class Model
 		}
 	}
 
+	// Typing for the player
 	public void typePlayer()
 	{
 		typing = true;
 		System.out.println("Please enter players ID number.");
-		playerID = typingObj.nextLine();
+		playerID = intObj.nextInt();
 
 		//Check if ID is within database.
 		
+
 
 		System.out.println("Please enter players codename.");
 		playerCodeName = typingObj.nextLine();
