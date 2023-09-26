@@ -5,6 +5,8 @@ public class Player {
     int menux;
     int menuy;
 
+    int highscore;
+    int equipmentID;
 
     Player(int playerID, String playerCodeName, int menux, int menuy)
     {

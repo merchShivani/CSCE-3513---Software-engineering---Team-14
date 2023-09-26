@@ -40,12 +40,17 @@ class Controller implements ActionListener, KeyListener
 
 	public void keyReleased(KeyEvent e)
 	{
+		if (model.gamePhase == 1)
+		{
 		switch(e.getKeyCode())
 		{
-			case KeyEvent.VK_DOWN: model.moveCursorDown(); break;
-			case KeyEvent.VK_UP: model.moveCursorUp(); break;
+			//case KeyEvent.VK_DOWN: model.moveCursorDown(); break;
+			//case KeyEvent.VK_UP: model.moveCursorUp(); break;
 			case KeyEvent.VK_SHIFT: model.switchTeams(); break;
 			case KeyEvent.VK_SPACE: model.typePlayer(); break;
+			case KeyEvent.VK_Z: model.clearTeams(); break;
+			case KeyEvent.VK_CONTROL: model.startGame(); break;
+		}
 		}
 	}
 
@@ -57,7 +62,7 @@ class Controller implements ActionListener, KeyListener
 
 	public void update()
 	{
-
+	
 	}
 
 }
