@@ -6,7 +6,7 @@ Photon laser tag is the main software for the operation of a laser tag game. It 
 ## Team Members
 ```
 -Adam Eisa
--Jarett Hobbs
+-Jarrett Hobbs
 -Shivani Merchant
 -Christian Blunden
 -Dhurv Mistry
