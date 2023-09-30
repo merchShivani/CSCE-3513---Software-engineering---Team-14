@@ -1,23 +1,37 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 class Model
 {
-	Controller controller;
 	int gamePhase;
 	int splashTime = 0;
 	int cursorX;
 	int cursorY;
-	boolean typing;
-	int playerID;
-	String playerCodeName;
-	Scanner typingObj = new Scanner (System.in);
-	Scanner intObj = new Scanner (System.in);
 
+	// Is the User entering information for the players
+	boolean typing;
+
+	// Player Number ID
+	int playerID;
+
+	// Player String Code Name
+	String playerCodeName;
+
+	int count;
+
+	// Holdes Square during List Loops
 	PlayerSquare playerSquareHolder;
+
+	// Holds Player during List Loops
 	Player playerNew;
+
+	// Array for Squares on Login Screen
 	ArrayList<PlayerSquare> squareList;
+
+	// Array for Player Objects
 	ArrayList<Player> playerList;
+
+	// Object for Player Add Window
+	PlayerAddWindow playeraddwindow;
 
 	Model()
 	{
@@ -26,6 +40,10 @@ class Model
 		cursorY = 145;
 		typing = false;
 
+		// Creates Player Add Window - Starts Hidden
+		playeraddwindow = new PlayerAddWindow();
+
+		// List to hold information for Player and Login Squares
 		squareList = new ArrayList<PlayerSquare>();
 		playerList = new ArrayList<Player>();
 
@@ -52,36 +70,33 @@ class Model
 	// Update for Model
 	public void update()
 	{
-		// Start Screen Splash Image Function
+		// Start Screen Splash Image Function Frame Rate is 40 FPS * 3 = 120 Frames
 		if (gamePhase == 0)
 		{
-			if (splashTime > 100)
+			if (splashTime > 120)
 			{
 				gamePhase = 1;
 			}
 			splashTime += 1;
 		}
-	}
 
-	/*  Testing Functions to move the cursor up and down on screen.
-	// Cursor goes down Y axis
-	public void moveCursorDown()
-	{
-		if (cursorY < 565)
+		// If the user is entering Player Information check the following conditions
+		if (typing == true)
 		{
-		cursorY += 30;
-		}
-	}
+			if (playeraddwindow.stage == 2)
+			{
+				addPlayerID();
+			}
 
-	// Cursor goes up Y axis
-	public void moveCursorUp()
-	{
-		if (cursorY > 145)
-		{
-			cursorY -= 30;
+			if (playeraddwindow.stage == 4 || playeraddwindow.stage == 6)
+			{
+				createPlayer();
+			}
 		}
+
+		// Update the Player Add Window Screen
+		playeraddwindow.update();
 	}
-	*/
 
 	// Cursor will switch team .. Flip Flop Design
 	public void switchTeams()
@@ -129,53 +144,6 @@ class Model
 		}
 	}
 
-	// Typing for the player
-	public void typePlayer()
-	{
-		// typing is true
-		typing = true;
-		// Enter Player ID Int
-		System.out.println("Please enter player's ID number.");
-		playerID = intObj.nextInt();
-
-
-		//Check if ID is within database.
-		//
-		//
-		//
-		
-
-		//Add Player Name
-		System.out.println("Please enter player's codename.");
-		playerCodeName = typingObj.nextLine();
-		typing = false;
-
-		playerNew = new Player(playerID, playerCodeName, cursorX+30, cursorY);
-
-		playerList.add(playerNew);
-
-		for (int i = 0; i < squareList.size(); i++)
-		{
-			playerSquareHolder = squareList.get(i);
-
-			if (playerSquareHolder.playerSquareX == cursorX + 40 && playerSquareHolder.playerSquareY == cursorY)
-			{
-				playerSquareHolder.usedSquare = true;
-			}
-		}
-
-		// Move Cursor Down to the next Player Square or move it to the other team if this team is full.
-		if (cursorY < 536)
-		{
-			cursorY += 30;
-		}
-		else
-		{
-			switchTeams();
-		}
-	}
-
-
 	// Resets Player Screen
 	void clearTeams()
 	{
@@ -194,11 +162,88 @@ class Model
 		cursorY = 145;
 	}
 
+	void openPlayerWindow()
+	{
+		playeraddwindow.windowOpen = true;
+		playeraddwindow.stage = 1;
+		typing = true;
+	}
+
 	// Move Game Forward to Phase 2 and Gameplay
 	void startGame()
 	{
 		gamePhase = 2;
 	}
 
+	// Checks if the new Player ID is equal to an ID already in the List.
+	boolean checkID(int playerID)
+	{
+		for (int i = 0; i < playerList.size(); i++)
+		{
+			playerNew = playerList.get(i);
 
+			if (playerID == playerNew.playerID)
+			{
+				playerCodeName = playerNew.playerCodeName;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// Add Player ID and determine if the Player Add Window follows a found ID or needs a new Code Name.
+	void addPlayerID()
+	{
+		playerID = Integer.valueOf(playeraddwindow.windowPlayerID);
+
+		if (checkID(playerID) == true)
+		{
+			playeraddwindow.stage = 3;
+		}
+		else
+		{
+			playeraddwindow.stage = 5;
+		}
+	}
+
+	//Creates new Player Object based on Player Add Window stage if ID was found use copy to create new game player
+	// If player ID not found use the text defined in the Player Add Window second text field.
+
+	void createPlayer()
+	{
+		
+		if (playeraddwindow.stage == 6)
+		{
+		playerCodeName = playeraddwindow.windowCodeName;
+		}
+
+		playerNew = new Player(playerID, playerCodeName, cursorX+30, cursorY);
+		playerList.add(playerNew);
+
+		// Update Squares
+			for (int i = 0; i < squareList.size(); i++)
+		{
+			playerSquareHolder = squareList.get(i);
+
+			if (playerSquareHolder.playerSquareX == cursorX + 40 && playerSquareHolder.playerSquareY == cursorY)
+			{
+				playerSquareHolder.usedSquare = true;
+			}
+		}
+
+		// Move Cursor Down to the next Player Square or move it to the other team if this team is full.
+		if (cursorY < 536)
+		{
+			cursorY += 30;
+		}
+		else
+		{
+			switchTeams();
+		}
+
+		// Return to first sceen with the Player Add Window returned to stage 0
+		typing = false;
+		playeraddwindow.windowOpen = false;
+		playeraddwindow.stage = 0;
+	}
 }

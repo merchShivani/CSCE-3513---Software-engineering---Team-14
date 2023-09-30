@@ -76,7 +76,8 @@ class View extends JPanel
 			g.setColor(new Color(0, 0, 0));
 			g.fillRect(model.cursorX, model.cursorY,20,10);
 			
-
+			
+			
 			// Print the user information on dashboard
 			for (int i = 0; i < model.playerList.size(); i++)
 			{
@@ -101,6 +102,5 @@ class View extends JPanel
 		{
 			g.drawImage(this.photonGameplay, 0, 0, this.getWidth(), this.getHeight(), null);
 		}
-
 	}
 }

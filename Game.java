@@ -6,6 +6,7 @@ public class Game extends JFrame
 	Model model;
 	View view;
 	Controller controller;
+	PlayerAddWindow playerAddWindow;
 
 	public Game()
 	{
@@ -20,6 +21,7 @@ public class Game extends JFrame
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 		this.addKeyListener(controller);
+		this.setLocationRelativeTo(null);
 	}
 
 	// Starting Point of the Entire Program
