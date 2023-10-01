@@ -37,7 +37,7 @@ public class Game extends JFrame
 
 	// While Loop that goes until the user exits out of the screen
 	public void run()
-{
+	{
 	while(true)
 	{
 		//Run the Update Functions for the Controller, Model and View
@@ -55,8 +55,6 @@ public class Game extends JFrame
 			e.printStackTrace();
 			System.exit(1);
 		}
-	
-			
 	}
-
+	}
 }
