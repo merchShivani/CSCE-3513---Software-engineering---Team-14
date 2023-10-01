@@ -19,13 +19,13 @@ public class AddPlayersToGame {
         model.openPlayerWindow();
 
         // Simulate adding Player 1
-        model.setPlayerID("1"); // Set the player ID as needed
-        model.setPlayerCodeName("Player1"); // Set the player code name as needed
+        model.setplayerID("1"); // Set the player ID as needed
+        model.setplayerCodeName("Player1"); // Set the player code name as needed
         model.createPlayer();
 
         // Simulate adding Player 2
-        model.setPlayerID("2"); // Set the player ID as needed
-        model.setPlayerCodeName("Player2"); // Set the player code name as needed
+        model.setplayerID("2"); // Set the player ID as needed
+        model.setplayerCodeName("Player2"); // Set the player code name as needed
         model.createPlayer();
     }
 }
