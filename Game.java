@@ -55,11 +55,8 @@ public class Game extends JFrame
 			e.printStackTrace();
 			System.exit(1);
 		}
-		// Check if it's time to add players (you can adjust the condition as needed)
-                if (model.gamePhase == 1 && model.getPlayerList().size() == 0) {
-                	playerAddWindow.simulateAddingPlayers(model); }
+	
 			
-		}
 	}
 
 }
