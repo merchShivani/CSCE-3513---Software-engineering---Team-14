@@ -217,6 +217,22 @@ public class PlayerAddWindow implements KeyListener
             }
     }
 
+    // Simulate adding players to the game
+    public void simulateAddingPlayers(Model model) {
+        // Simulate adding Player 1
+        windowPlayerID = "1"; // Set the player ID as needed
+        windowCodeName = "Player1"; // Set the player code name as needed
+        model.setPlayerID(windowPlayerID);
+        model.setPlayerCodeName(windowCodeName);
+        model.createPlayer();
+
+        // Simulate adding Player 2
+        windowPlayerID = "2"; // Set the player ID as needed
+        windowCodeName = "Player2"; // Set the player code name as needed
+        model.setPlayerID(windowPlayerID);
+        model.setPlayerCodeName(windowCodeName);
+        model.createPlayer();
+    }
 
 
 }
