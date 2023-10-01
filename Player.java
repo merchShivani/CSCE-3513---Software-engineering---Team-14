@@ -8,6 +8,9 @@ public class Player {
     int highscore;
     int equipmentID;
 
+    // Red == 0, Green == 1
+    int team;
+
     Player(int playerID, String playerCodeName, int menux, int menuy)
     {
         this.playerID = playerID;
