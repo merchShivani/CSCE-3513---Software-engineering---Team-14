@@ -1,5 +1,10 @@
 import javax.swing.JFrame;
 import java.awt.Toolkit;
+//import java.net.http.HttpRequest;
+//import java.net.http.HttpResponse;
+//import java.net.URI;
+//import java.net.http.HttpClient;
+//import java.io.IOException;
 
 public class Game extends JFrame
 {
@@ -7,6 +12,9 @@ public class Game extends JFrame
 	View view;
 	Controller controller;
 	PlayerAddWindow playerAddWindow;
+
+
+
 
 	public Game()
 	{
@@ -25,8 +33,18 @@ public class Game extends JFrame
 	}
 
 	// Starting Point of the Entire Program
-	public static void main(String[] args)
+	public static void main(String[] args) throws Exception
 	{
+		
+		/* 
+		HttpRequest request = HttpRequest.newBuilder()
+		.uri(URI.create("https://jwrerfjonxuewavojuol.supabase.co"))
+		.header("SupaBase-Project-Host","https://supabase.com")
+		.header("SupaBase-Project-API","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3cmVyZmpvbnh1ZXdhdm9qdW9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTM5Mjk3MTksImV4cCI6MjAwOTUwNTcxOX0.SjFvVcdGI3xMjtEsj7SaJlebubfDr65WVVoI1jI9Pqg")
+		.method("GET", HttpRequest.BodyPublishers.noBody())
+		.build();
+		*/
+
 		// Create Game along with Model, Controller and View
 		Game g = new Game();
 
