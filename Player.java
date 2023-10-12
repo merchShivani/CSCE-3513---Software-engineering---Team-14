@@ -7,6 +7,7 @@ public class Player {
 
     int highscore;
     int equipmentID;
+    int currentScore = 0;
 
     // Red == 0, Green == 1
     int team;
