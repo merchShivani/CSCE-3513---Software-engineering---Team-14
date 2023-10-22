@@ -85,7 +85,7 @@ class View extends JPanel {
 				g.drawString(playerInfo.playerCodeName, playerInfo.menux + 300, playerInfo.menuy + 10);
 			}
 		}
-
+		// Creates countdown once this game phase is hit
 		if (model.gamePhase == 2) {
 			g.drawImage(this.photonGameplay, 0, 0, this.getWidth(), this.getHeight(), null);
 		}
