@@ -34,7 +34,7 @@ class Controller implements KeyListener {
 			}
 		}
 
-		if (model.gamePhase == 2) {
+		if (model.gamePhase == 3) {
 			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 				model.gamePhase = 1;
 			}
@@ -42,18 +42,18 @@ class Controller implements KeyListener {
 
 		if (model.gamePhase == 3) {
 
-			switch (e.getKeyCode()) {
-				case KeyEvent.VK_W:
-					// trigger player move action
-					break;
+			// Use A key while in Gameplay to add 10 points to all players and print an
+			// event.
+			if (e.getKeyCode() == KeyEvent.VK_A) {
+				for (int i = 0; i < model.playerList.size(); i++) {
+					model.playerNew = model.playerList.get(i);
+					model.playerNew.currentScore += 10;
 
-				case KeyEvent.VK_E:
-					// trigger player interact action
-					break;
-
+				}
 			}
 
 		}
+
 	}
 
 	public void keyTyped(KeyEvent e) {
