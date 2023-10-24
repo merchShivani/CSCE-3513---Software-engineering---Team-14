@@ -17,8 +17,8 @@ The current state of the project requires the use of [java](https://www.java.com
 The program is built with Core Java Libaries, no external downloads will be required outside of the files included on this GitHub location.
 The current program version has been successfully tested on Mac OS OpenJDK 17.0.5 and Windows 10 java 19.0.2
 
-## Working Stage - Sprint 2
-The GUI for the Photon Splash Screen and Player Entry Screen functionality are in a complete first draft form with the user able to add Player ID, Player Code Name and Player Equipment ID through a GUI window with no need for interaction with the terminal. New Player ID and Player Code Name will be printed on the screen with the Equipment ID being assigned to the new Player Object. Functions are in place to check if an ID is already in the instance of the game, however there is no functionality with a database at the moment.
+## Working Stage - Sprint 3
+The Play Action Screen was implemented. At its current state, test events have been implemented to ensure that the game feed and player scores are functioning properly within the screen. Additional functions have also been added: A count down will now display after pressing 'CTRL' to start the game, it will then display a 5 second timer before switching to the play action screen with the listed players on both teams, their scores, and a game feed that will show the interactions between players (e.g. who got hit by who and if player has tagged the other teams base.). Lastly pressing the 'Z' key will clear all player entries to reset the game.
 
 The program can be successfully completed without the use of a mouse. The "Escape" key will close the main window when the user is not actively entering player information. User controls have been provided for each phase of the program with the general controls located at the bottom of the screen.
 
