@@ -14,7 +14,7 @@ Photon laser tag is the main software for the operation of a laser tag game. It 
 
 ## Installation requirements
 The current state of the project requires the use of [java](https://www.java.com/download/ie_manual.jsp). This will allow you to view and complie the code.
-The program is built with Core Java Libaries, no external downloads will be required outside of the files included on this GitHub location.
+The program is built with Core Java Libaries, no external downloads will be required outside of the files included on this GitHub location. Errors with GameServer.java and SupabaseOperations.java will not effect the functionality for Sprint 3.
 The current program version has been successfully tested on Mac OS OpenJDK 17.0.5 and Windows 10 java 19.0.2
 
 ## Working Stage - Sprint 3
