@@ -19,5 +19,4 @@ public class Player {
         this.menux = menux;
         this.menuy = menuy;
     }
-    
 }
