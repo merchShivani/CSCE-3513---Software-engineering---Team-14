@@ -6,6 +6,9 @@ import java.io.IOException;
 import org.json.JSONArray;
 import org.json.JSONObject;   
 
+
+
+
 public class SupabaseOperations {
     private static final String SUPABASE_URL = "https://jwrerfjonxuewavojuol.supabase.co";
     private static final String SUPABASE_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3cmVyZmpvbnh1ZXdhdm9qdW9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTM5Mjk3MTksImV4cCI6MjAwOTUwNTcxOX0.SjFvVcdGI3xMjtEsj7SaJlebubfDr65WVVoI1jI9Pqg";
@@ -13,7 +16,7 @@ public class SupabaseOperations {
 
     private static final HttpClient client = HttpClient.newHttpClient();
 
-
+    private static String test = "test";
 
     public SupabaseOperations() {}
 
