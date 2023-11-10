@@ -16,8 +16,6 @@ public class SupabaseOperations {
 
     private static final HttpClient client = HttpClient.newHttpClient();
 
-    private static String test = "test";
-
     public SupabaseOperations() {}
 
     public static void create(Player playerIn) {

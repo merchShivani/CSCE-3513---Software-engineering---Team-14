@@ -119,7 +119,7 @@ class Model
 
 			if (playeraddwindow.stage == 8)
 			{
-				addEquiptmentNumber();
+				addEquipmentNumber();
 			}
 		}
 		// Update the Player Add Window Screen
@@ -383,9 +383,9 @@ class Model
 		}
 	}
 
-	void addEquiptmentNumber()
+	void addEquipmentNumber()
 	{
-		playerNew.equipmentID = Integer.valueOf(playeraddwindow.windowEquiptment);
+		playerNew.equipmentID = Integer.valueOf(playeraddwindow.windowEquipment);
 
 			// Update Squares
 			for (int i = 0; i < squareList.size(); i++)

@@ -8,6 +8,9 @@ public class Game extends JFrame
 	Controller controller;
 	PlayerAddWindow playerAddWindow;
 
+
+	//
+
 	public Game()
 	{
 		model = new Model();
