@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 class Model
 {
@@ -50,26 +49,17 @@ class Model
 	//Database Check
 	boolean dataBaseSet = false;
 
-	Scanner equitmentScanner;
-
 	Model()
 	{
 		gamePhase = 0;
 		cursorX = 105;
 		cursorY = 145;
 		typing = false;
-		dataBaseSet = false;
-
-		if (dataBaseSet == true)
-		{
-			databaseAddPlayers(1, "Player 1");
-			databaseAddPlayers(2, "Player 2");
-		}
 
 		// Creates Player Add Window - Starts Hidden
 		playeraddwindow = new PlayerAddWindow();
 
-		// List to hold information for Player and Login Squares
+		// List to hold information for Player and Login Squares and Gameplay Events
 		squareList = new ArrayList<PlayerSquare>();
 		playerList = new ArrayList<Player>();
 		eventList = new ArrayList<Event>();
@@ -248,7 +238,7 @@ class Model
 	}
 
 
-	void openPlayerWindow()
+	void openAddPlayerWindow()
 	{
 		playeraddwindow.windowOpen = true;
 		playeraddwindow.stage = 1;
@@ -417,19 +407,15 @@ class Model
 	//Creates new Player Object based on Player Add Window stage if ID was found use copy to create new game player
 	// If player ID not found use the text defined in the Player Add Window second text field.
 
-	//////											////
-	/////  Function for Database Check for Code Name ////
-	/////											/////
-	/////										//////
 	void createPlayer()
 	{
 		if (playeraddwindow.stage == 6)
 		{
 		playerCodeName = playeraddwindow.windowCodeName;
+		playerID = Integer.valueOf(playeraddwindow.windowPlayerID);
 		}
 
 		playerNew = new Player(playerID, playerCodeName, cursorX+30, cursorY);
-
 
 		// Add Player to a Team
 		if (cursorX == 105)
@@ -451,10 +437,6 @@ class Model
 	{
 		playerNew = new Player(playerID, playerCodeName, cursorX + 30, cursorY);
 		playerList.add(playerNew);
-
-		equitmentScanner = new Scanner(System.in);
-
-		playerNew.equipmentID = equitmentScanner.nextInt();
 
 		// Update Squares
 		for (int i = 0; i < squareList.size(); i++) {

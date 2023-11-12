@@ -143,8 +143,8 @@ public class PlayerAddWindow implements KeyListener
                 codeNameIn = "";
                 codeNameIn = SupabaseOperations.read("id", windowPlayerID).getCodeName();
 
-                if (codeNameIn.length() > 0) {
-                    
+                if (codeNameIn.length() > 0) 
+                {
                     stage = 3;
                 }
                 else
@@ -161,7 +161,6 @@ public class PlayerAddWindow implements KeyListener
             equipmentField.requestFocus();
             codeNameFoundLabel.setVisible(true);
             windowCodeName = codeNameIn;
-            //IDfield.setText("");
         }
 
         // Accepts CodeName and then closes window along with reseting the fields.

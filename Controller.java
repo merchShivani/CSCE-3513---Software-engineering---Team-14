@@ -26,7 +26,7 @@ class Controller implements KeyListener
 		switch(e.getKeyCode())
 		{
 			case KeyEvent.VK_SHIFT: model.switchTeams(); break;
-			case KeyEvent.VK_SPACE: model.openPlayerWindow(); break;
+			case KeyEvent.VK_SPACE: model.openAddPlayerWindow(); break;
 			case KeyEvent.VK_Z: model.clearTeams(); break;
 			case KeyEvent.VK_CONTROL: model.startGame(); break;
 			case KeyEvent.VK_ESCAPE: System.exit(0);
