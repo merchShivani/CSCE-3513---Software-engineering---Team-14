@@ -97,19 +97,9 @@ class Model
 		// If the user is entering Player Information check the following conditions
 		if (typing == true)
 		{
-			if (playeraddwindow.stage == 2)
+			if (playeraddwindow.stage == 4)
 			{
-				addPlayerID();
-			}
-
-			if (playeraddwindow.stage == 4 || playeraddwindow.stage == 6)
-			{
-				createPlayer();
-			}
-
-			if (playeraddwindow.stage == 8)
-			{
-				addEquipmentNumber();
+			addPlayerToGame();
 			}
 		}
 		// Update the Player Add Window Screen
@@ -328,7 +318,6 @@ class Model
 		return lTeam;
 	}
 
-
 	// Move Game Forward to Phase 2 and Gameplay
 	void startGame()
 	{
@@ -336,86 +325,13 @@ class Model
 		gamePhase = 2;
 	}
 
-	// Checks if the new Player ID is equal to an ID already in the List.
-
-	//////										////
-	/////  Function for Database Check for ID ////
-	/////										/////
-	/////									//////
-
-	boolean checkID(int playerID)
+	// Add Player to Game after entering Equitment ID in PlayerAddWindow
+	void addPlayerToGame()
 	{
-		for (int i = 0; i < playerList.size(); i++)
-		{
-			playerNew = playerList.get(i);
-
-			if (playerID == playerNew.playerID)
-			{
-				playerCodeName = playerNew.playerCodeName;
-				return true;
-			}
-		}
-		return false;
-	}
-
-	// Add Player ID and determine if the Player Add Window follows a found ID or needs a new Code Name.
-	void addPlayerID()
-	{
-		playerID = Integer.valueOf(playeraddwindow.windowPlayerID);
-
-		if (checkID(playerID) == true)
-		{
-			playeraddwindow.stage = 3;
-		}
-		else
-		{
-			playeraddwindow.stage = 5;
-		}
-	}
-
-	void addEquipmentNumber()
-	{
-		playerNew.equipmentID = Integer.valueOf(playeraddwindow.windowEquipment);
-
-			// Update Squares
-			for (int i = 0; i < squareList.size(); i++)
-		{
-			playerSquareHolder = squareList.get(i);
-
-			if (playerSquareHolder.playerSquareX == cursorX + 40 && playerSquareHolder.playerSquareY == cursorY)
-			{
-				playerSquareHolder.usedSquare = true;
-			}
-		}
-
-		// Move Cursor Down to the next Player Square or move it to the other team if this team is full.
-		if (cursorY < 536)
-		{
-			cursorY += 30;
-		}
-		else
-		{
-			switchTeams();
-		}
-
-		// Return to first sceen with the Player Add Window returned to stage 0
-		typing = false;
-		playeraddwindow.windowOpen = false;
-		playeraddwindow.stage = 0;
-	}
-
-	//Creates new Player Object based on Player Add Window stage if ID was found use copy to create new game player
-	// If player ID not found use the text defined in the Player Add Window second text field.
-
-	void createPlayer()
-	{
-		if (playeraddwindow.stage == 6)
-		{
 		playerCodeName = playeraddwindow.windowCodeName;
 		playerID = Integer.valueOf(playeraddwindow.windowPlayerID);
-		}
 
-		playerNew = new Player(playerID, playerCodeName, cursorX+30, cursorY);
+		playerNew = new Player(playerID, playerCodeName, cursorX + 30, cursorY);
 
 		// Add Player to a Team
 		if (cursorX == 105)
@@ -427,26 +343,21 @@ class Model
 		playerNew.team = 1;
 		}
 
-		// Add Player to the game instance list.
-		playerList.add(playerNew);
+		// Add Equiptment to Player Instance
+		playerNew.equipmentID = Integer.valueOf(playeraddwindow.windowEquipment);
 
-		playeraddwindow.stage = 7;
-	}
-
-	void databaseAddPlayers(int playerID, String playerCodeName)
-	{
-		playerNew = new Player(playerID, playerCodeName, cursorX + 30, cursorY);
 		playerList.add(playerNew);
 
 		// Update Squares
-		for (int i = 0; i < squareList.size(); i++) {
+		for (int i = 0; i < squareList.size(); i++) 
+		{
 			playerSquareHolder = squareList.get(i);
 
 			if (playerSquareHolder.playerSquareX == cursorX + 40 && playerSquareHolder.playerSquareY == cursorY) {
 				playerSquareHolder.usedSquare = true;
 			}
 		}
-
+		
 		// Move Cursor Down to the next Player Square or move it to the other team if
 		// this team is full.
 		if (cursorY < 536) {
