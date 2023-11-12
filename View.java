@@ -166,7 +166,7 @@ class View extends JPanel
 			g.drawString(greenTeamScore, 950, teamBoxHeight + 30);
 			}
 
-			blinkTimer += 1;
+			
 			// Outline for game Area
 			g.setColor(new Color(200, 200, 200));
 			g.fillRect(100, 50, 20, 600);
@@ -178,27 +178,45 @@ class View extends JPanel
 			g.fillRect(100, teamBoxHeight + 40,1100,20);
 
 
+			// Print Red Team
 			for (int i = 0; i < model.redList.size(); i++)
 			{
 				playerInfo = model.redList.get(i);
 				g.setColor(new Color(250,0,0));
 
-				// Converts Int value of ID to a String
-				String playerScore = Integer.toString(playerInfo.currentScore);
-
-				// Draws PlayerScore
-				g.drawString(playerScore,playerInfo.menux + 200,(145 + i * 30) - 50);
-
-				// Draws PlayerCodeName
-				g.drawString(playerInfo.playerCodeName, playerInfo.menux + 100, (145 + i * 30) - 50);
+				// Do Not Draw Top Player based in Blink Timer. Draw rest of team
+				if (blinkTimer % 10 == 0 && model.topPlayer == 0 && i == 0)
+				{
+					if (blinkTimer == 40)
+					{
+					blinkTimer = 0;
+					}
+				}
+				else
+				{
+					String playerScore = Integer.toString(playerInfo.currentScore);
+					// Draws PlayerScore
+					g.drawString(playerScore,playerInfo.menux + 200,(145 + i * 30) - 50);
+					// Draws PlayerCodeName
+					g.drawString(playerInfo.playerCodeName, playerInfo.menux + 100, (145 + i * 30) - 50);
+				}
 			}
 
-
+			// Print Green Team
 			for (int j = 0; j < model.greenList.size(); j++)
 			{
 				playerInfo = model.greenList.get(j);
 				g.setColor(new Color(0,250,0));
 
+				if (blinkTimer % 10 == 0 && model.topPlayer == 1 && j == 0)
+				{
+					if (blinkTimer == 40)
+					{
+					blinkTimer = 0;
+					}
+				}
+				else
+				{
 				// Converts Int value of ID to a String
 				String playerScore = Integer.toString(playerInfo.currentScore);
 
@@ -207,7 +225,11 @@ class View extends JPanel
 
 				// Draws PlayerCodeName
 				g.drawString(playerInfo.playerCodeName, playerInfo.menux + 100, (145 + j * 30) - 50);
+				}
 			}
+
+
+			blinkTimer += 1;
 
 			// Draw the Game Time
 			g.setFont(new Font("Times New Roman", Font.BOLD, 40));

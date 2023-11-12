@@ -1,9 +1,13 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import javax.swing.*;
+import java.awt.*;
 
 class Model
 {
+
+
 	int gamePhase;
 	int splashTime = 0;
 	int cursorX;
@@ -11,6 +15,7 @@ class Model
 	int redTeamScore = 0;
 	int greenTeamScore = 0;
 	int winningTeam = 2;
+	int topPlayer = 2;
 
 	// Game Start Countdown
 	int gameStartCountdown = 30;
@@ -294,6 +299,47 @@ class Model
 	{
 		Collections.sort(redList, Collections.reverseOrder());
 		Collections.sort(greenList, Collections.reverseOrder());
+		findTopPlayer();
+	}
+
+	void findTopPlayer()
+	{
+		// Compare Top Players on Both Teams
+		playerNew = redList.get(0);
+		playerCheck = greenList.get(0);
+
+		if (playerNew.currentScore > playerCheck.currentScore)
+		{
+			topPlayer = 0;
+		}
+		else if (playerNew.currentScore < playerCheck.currentScore)
+		{
+			topPlayer = 1;
+		}
+		else
+		{
+			topPlayer = 2;
+		}
+
+		// Check the player is top on own team RED
+		if (topPlayer == 0 && redList.size() > 1)
+		{
+			playerCheck = redList.get(1);
+			if (playerCheck.currentScore == playerNew.currentScore)
+			{
+				topPlayer = 2;
+			}
+		}
+
+		// Check the player is top on own team GREEN
+		if (topPlayer == 1 && greenList.size() > 1)
+		{
+			playerNew = greenList.get(1);
+			if (playerCheck.currentScore == playerNew.currentScore)
+			{
+				topPlayer = 2;
+			}
+		}
 	}
 
 
