@@ -1,13 +1,14 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-import javax.swing.*;
-import java.awt.*;
+
+import javazoom.jl.player.advanced.AdvancedPlayer;
+import java.io.InputStream;
+
+
 
 class Model
 {
-
-
 	int gamePhase;
 	int splashTime = 0;
 	int cursorX;
@@ -67,8 +68,17 @@ class Model
 	//Database Check
 	boolean dataBaseSet = false;
 
+	// Variables for Music Playing MP3
+	AdvancedPlayer activeMusic;
+	InputStream inputStream;
+
+
+	// Scanner for Test
 	Scanner recieverScan;
 	Scanner senderScan;
+
+	String fileName = "Audio\\Track01.mp3";
+	Music music = new Music(fileName);
 
 	Model()
 	{
@@ -131,6 +141,12 @@ class Model
 		if (gamePhase == 2)
 		{
 			frameCounter += 1;
+
+			if (gameStartCountdown == 14 && frameCounter == 1)
+			{
+				musicPlay();
+			}
+
 
 			if (frameCounter == 40)
 			{
@@ -242,6 +258,8 @@ class Model
 		// Clear Events
 		eventList.clear();
 
+		musicStop();
+
 		// Set Game Time back to 6 minutes
 		gamePlayTimeM = 6;
 		gamePlayTimeS = 0;
@@ -255,6 +273,8 @@ class Model
 			playerNew.currentScore = 0;
 		}
 	}
+
+
 
 	void countTeamPoints()
 	{
@@ -304,22 +324,26 @@ class Model
 
 	void findTopPlayer()
 	{
-		// Compare Top Players on Both Teams
-		playerNew = redList.get(0);
-		playerCheck = greenList.get(0);
+		// Compare Top Players on Both Teams both teams must have atleast 1 player
+		if (redList.size() > 0 && greenList.size() > 0)
+		{
+			playerNew = redList.get(0);
+
+			playerCheck = greenList.get(0);
 
 		if (playerNew.currentScore > playerCheck.currentScore)
-		{
-			topPlayer = 0;
-		}
+			{
+				topPlayer = 0;
+			}
 		else if (playerNew.currentScore < playerCheck.currentScore)
-		{
-			topPlayer = 1;
-		}
+			{
+				topPlayer = 1;
+			}
 		else
-		{
+			{
 			topPlayer = 2;
-		}
+			}
+	}
 
 		// Check the player is top on own team RED
 		if (topPlayer == 0 && redList.size() > 1)
@@ -340,6 +364,16 @@ class Model
 				topPlayer = 2;
 			}
 		}
+	}
+
+	void musicPlay()
+	{
+		music.play();
+	}
+
+	void musicStop()
+	{
+		music.close();
 	}
 
 
