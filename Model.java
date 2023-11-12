@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
 
 class Model
 {
@@ -8,10 +10,15 @@ class Model
 	int cursorY;
 	int redTeamScore = 0;
 	int greenTeamScore = 0;
+	int winningTeam = 2;
 
 	// Game Start Countdown
 	int gameStartCountdown = 30;
-	int secondCounter = 0;
+	int frameCounter = 0;
+
+	// Gameplay Timer // Minute // Seconds
+	int gamePlayTimeM = 6;
+	int gamePlayTimeS = 0;
 
 	// Is the User entering information for the players
 	boolean typing;
@@ -30,12 +37,18 @@ class Model
 
 	// Holds Player during List Loops
 	Player playerNew;
+	Player playerCheck;
 
 	// Array for Squares on Login Screen
 	ArrayList<PlayerSquare> squareList;
 
 	// Array for Player Objects
 	ArrayList<Player> playerList;
+
+	// Array for ranking players during gameplay.
+	ArrayList<Player> redList;
+
+	ArrayList<Player> greenList;
 
 	// Array for Event Log
 	ArrayList<Event> eventList;
@@ -48,6 +61,9 @@ class Model
 
 	//Database Check
 	boolean dataBaseSet = false;
+
+	Scanner recieverScan;
+	Scanner senderScan;
 
 	Model()
 	{
@@ -63,6 +79,8 @@ class Model
 		squareList = new ArrayList<PlayerSquare>();
 		playerList = new ArrayList<Player>();
 		eventList = new ArrayList<Event>();
+		redList = new ArrayList<Player>();
+		greenList = new ArrayList<Player>();
 
 		// Define Squares for Red Team
 		for (int i = 0; i < 15; i++)
@@ -107,24 +125,46 @@ class Model
 
 		if (gamePhase == 2)
 		{
-			secondCounter += 1;
+			frameCounter += 1;
 
-			if (secondCounter == 40)
+			if (frameCounter == 40)
 			{
 				gameStartCountdown -= 1;
-				secondCounter = 0;
+				frameCounter = 0;
 			}
 
 			if (gameStartCountdown == 0)
 			{
 				gamePhase = 3;
 				gameStartCountdown = 30;
+				frameCounter = 0;
 			}
 		}
 
 		if (gamePhase == 3)
 		{
+			frameCounter += 1;
+
+			if (frameCounter == 40 && gamePlayTimeS == 0)
+			{
+				gamePlayTimeS = 59;
+				frameCounter = 0;
+				gamePlayTimeM -= 1;
+			}
+
+			if (frameCounter == 40 && gamePlayTimeS != 0)
+			{
+				gamePlayTimeS -= 1;
+				frameCounter = 0;
+			}
+
+			if (gamePlayTimeM == 0 && gamePlayTimeS == 0)
+			{
+				gamePhase = 4;
+			}
+
 			countTeamPoints();
+			sortScores();
 		}
 	}
 
@@ -197,6 +237,13 @@ class Model
 		// Clear Events
 		eventList.clear();
 
+		// Set Game Time back to 6 minutes
+		gamePlayTimeM = 6;
+		gamePlayTimeS = 0;
+
+		redList.clear();
+		greenList.clear();
+
 		for (int i = 0; i < playerList.size(); i++)
 		{
 			playerNew = playerList.get(i);
@@ -225,6 +272,28 @@ class Model
 
 			redTeamScore = redTeamScoreLocal;
 			greenTeamScore = greenTeamScoreLocal;
+
+			if (redTeamScore > greenTeamScore)
+			{
+				winningTeam = 0;
+			}
+			
+			if (redTeamScore < greenTeamScore)
+			{
+				winningTeam = 1;
+			}
+
+			if (greenTeamScore == redTeamScore)
+			{
+				winningTeam = 2;
+			}
+	}
+
+	// Rearrange the Ranking List Dependent on current score.
+	void sortScores()
+	{
+		Collections.sort(redList, Collections.reverseOrder());
+		Collections.sort(greenList, Collections.reverseOrder());
 	}
 
 
@@ -235,54 +304,54 @@ class Model
 		typing = true;
 	}
 
+	void getPlayerInfoTest()
+	{
+		for (int i = 0; i < playerList.size(); i++)
+			{
+				playerNew = playerList.get(i);
+				
+				System.out.println(playerNew.playerCodeName + " " + playerNew.equipmentID);
+			}
+	}
+
+
 	// Create Event that one player hit another
-	void codenameHit()
+	void codeNameHitEvent()
 	{
 		String senderCodeName = " ";
 		String recieverCodeName = " ";
 		String event = "hit";
-	
-		// For Testing
-		int firstRed = 0;
-		int firstGreen = 0;
-		int teamsAssign = 0;
-		 
-		for (int i = 0; i < 2; i++)
+
+		int senderEquiptmentID;
+		int recieverEquiptmentID;
+
+		senderScan = new Scanner(System.in);
+		recieverScan = new Scanner(System.in);
+
+		System.out.println("Enter Sender Equitment ID");
+		senderEquiptmentID = senderScan.nextInt();
+
+		System.out.println("Enter Reciever Equitment ID");
+		recieverEquiptmentID = recieverScan.nextInt();
+
+		for (int i = 0; i < playerList.size(); i++)
+		{
+			playerNew = playerList.get(i);
+
+			if (playerNew.equipmentID == senderEquiptmentID)
 			{
-				playerNew = playerList.get(i);
-
-				if (playerNew.team == 0 && firstRed == 0)
-				{
-					senderCodeName = playerNew.playerCodeName;
-					firstRed = 1;
-				}
-
-				if (playerNew.team == 1 && firstGreen == 0)
-				{
-					recieverCodeName = playerNew.playerCodeName;
-					firstGreen = 1;
-				}
+				senderCodeName = playerNew.playerCodeName;
+				playerNew.currentScore += 10;
 			}
 
-		if (firstGreen == 1 && firstRed == 1)
-		{
-			teamsAssign = 1;
-			firstGreen = 2;
-			firstRed = 2;
+			if (playerNew.equipmentID == recieverEquiptmentID)
+			{
+				recieverCodeName = playerNew.playerCodeName;
+			}
 		}
 
-		if (teamsAssign == 1)
-		{
-			eventHolder = new Event(recieverCodeName, senderCodeName, event);
-			eventList.add(eventHolder);
-			teamsAssign = 2;
-		}
-
-
-		for (int i = 0; i < eventList.size(); i++)
-		{
-			eventHolder = eventList.get(i);
-		}
+	    eventHolder = new Event(recieverCodeName, senderCodeName, event);
+		eventList.add(eventHolder);
 	}
 
 	// Check the size of each team to determine the size of the Play Windows
@@ -321,6 +390,22 @@ class Model
 	// Move Game Forward to Phase 2 and Gameplay
 	void startGame()
 	{
+		// Create List for Player Rankings
+		for (int i = 0; i < playerList.size(); i++)
+			{
+				playerNew = playerList.get(i);
+
+				if (playerNew.team == 0)
+				{
+					redList.add(playerNew);
+				}
+				
+				if (playerNew.team == 1)
+				{
+					greenList.add(playerNew);
+				}
+			}
+
 		largestTeam = teamSize();
 		gamePhase = 2;
 	}

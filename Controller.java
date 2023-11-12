@@ -33,7 +33,7 @@ class Controller implements KeyListener
 		}
 		}
 
-		if (model.gamePhase == 3)
+		if (model.gamePhase == 4 || model.gamePhase == 3)
 		{
 			if (e.getKeyCode() == KeyEvent.VK_SPACE)
 			{
@@ -47,18 +47,20 @@ class Controller implements KeyListener
 			// Use A key while in Gameplay to add 10 points to all players and print an event.
 			if (e.getKeyCode() == KeyEvent.VK_A)
 			{
-				for (int i = 0; i < model.playerList.size(); i++)
+				model.codeNameHitEvent();
+			}
+
+			if (e.getKeyCode() == KeyEvent.VK_Q)
 			{
-				model.playerNew = model.playerList.get(i);
-				model.playerNew.currentScore += 10;
-				
-				// Need Player on both teams to active the event.
-				if (model.playerList.size() > 1)
-				{
-				model.codenameHit();
-				}
+				model.getPlayerInfoTest();
 			}
+
+			if (e.getKeyCode() == KeyEvent.VK_W)
+			{
+				model.sortScores();
 			}
+
+
 		}
 	}
 

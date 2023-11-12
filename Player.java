@@ -1,4 +1,4 @@
-public class Player {
+public class Player implements Comparable <Player> {
     int playerID;
     String playerCodeName;
     String playerFirstName;
@@ -41,6 +41,11 @@ public class Player {
         this.highscore = highscore;
     }
 
+    @Override
+    public int compareTo(Player player)
+    {
+        return this.currentScore - player.currentScore;
+    }
 
 
     public void SetID(int id) {this.playerID = id;}

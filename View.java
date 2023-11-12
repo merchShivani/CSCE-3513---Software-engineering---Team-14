@@ -17,6 +17,8 @@ class View extends JPanel
 	BufferedImage photonPlayerLogin;
 	BufferedImage photonGameplay;
 
+	int blinkTimer = 0;
+
 	View(Controller c, Model m)
 	{
 		model = m;
@@ -108,7 +110,7 @@ class View extends JPanel
 			g.drawString(counterText, 550,350);
 		}
 
-		if (model.gamePhase == 3)
+		if (model.gamePhase == 3 || model.gamePhase == 4)
 		{
 			int teamBoxHeight = model.largestTeam * 30 + 60;
 
@@ -132,52 +134,105 @@ class View extends JPanel
 			g.fillRect(100,50, 1100,teamBoxHeight);
 
 
-			// Draw Red Team Score
+			// Blink if Red is the Winning Team
+			if (blinkTimer % 10 == 0 && model.winningTeam == 0)
+			{
+			if (blinkTimer == 40)
+			{
+				blinkTimer = 0;
+			}
+			}
+			else
+			{
 			g.setColor(new Color(250,0,0));
 			String redTeamScore = Integer.toString(model.redTeamScore);
 			g.drawString("Red Team Score: ", 200, teamBoxHeight + 30);
 			g.drawString(redTeamScore, 400, teamBoxHeight + 30);
+			}
 
-			// Draw Green Team Score
+			// Blink if Green is the Winning Team
+			if (blinkTimer % 5 == 0 && model.winningTeam == 1)
+			{
+			if (blinkTimer == 40)
+			{
+				blinkTimer = 0;
+			}
+			}
+			else
+			{
 			g.setColor(new Color (0,250,0));
 			String greenTeamScore = Integer.toString(model.greenTeamScore);
 			g.drawString("Green Team Score: ", 750, teamBoxHeight + 30);
 			g.drawString(greenTeamScore, 950, teamBoxHeight + 30);
+			}
 
+			blinkTimer += 1;
 			// Outline for game Area
 			g.setColor(new Color(200, 200, 200));
 			g.fillRect(100, 50, 20, 600);
 			g.fillRect(1200, 50, 20, 600);
 			g.fillRect(100, 50, 1100, 20);
-			g.fillRect(100, 650,1120,20);
+			g.fillRect(100, 650,1120,40);
 
 			// Line Between Team Window and Events Window
 			g.fillRect(100, teamBoxHeight + 40,1100,20);
 
-			for (int i = 0; i < model.playerList.size(); i++)
-			{
-				playerInfo = model.playerList.get(i);
 
-				if (playerInfo.team == 0)
-				{
+			for (int i = 0; i < model.redList.size(); i++)
+			{
+				playerInfo = model.redList.get(i);
 				g.setColor(new Color(250,0,0));
-				}
-				else
-				{
-				g.setColor(new Color(0,250,0));
-				}
-				// Holder for Player List
 
 				// Converts Int value of ID to a String
 				String playerScore = Integer.toString(playerInfo.currentScore);
 
 				// Draws PlayerScore
-				g.drawString(playerScore,playerInfo.menux + 200,playerInfo.menuy - 50);
+				g.drawString(playerScore,playerInfo.menux + 200,(145 + i * 30) - 50);
 
 				// Draws PlayerCodeName
-				g.drawString(playerInfo.playerCodeName, playerInfo.menux + 100, playerInfo.menuy - 50);
+				g.drawString(playerInfo.playerCodeName, playerInfo.menux + 100, (145 + i * 30) - 50);
 			}
 
+
+			for (int j = 0; j < model.greenList.size(); j++)
+			{
+				playerInfo = model.greenList.get(j);
+				g.setColor(new Color(0,250,0));
+
+				// Converts Int value of ID to a String
+				String playerScore = Integer.toString(playerInfo.currentScore);
+
+				// Draws PlayerScore
+				g.drawString(playerScore,playerInfo.menux + 200,(145 + j * 30) - 50);
+
+				// Draws PlayerCodeName
+				g.drawString(playerInfo.playerCodeName, playerInfo.menux + 100, (145 + j * 30) - 50);
+			}
+
+			// Draw the Game Time
+			g.setFont(new Font("Times New Roman", Font.BOLD, 40));
+			g.setColor(new Color(250,0,0));
+			String gameTimeMinute = Integer.toString(model.gamePlayTimeM);
+			String gameTimeSecond = Integer.toString(model.gamePlayTimeS);
+			
+			g.drawString("Game Time ", 750,680);
+			g.drawString(gameTimeMinute, 980, 680);
+			g.drawString(":",1000,680);
+
+
+			if (model.gamePlayTimeS > 9)
+			{
+				g.drawString(gameTimeSecond,1015,680);
+			}
+
+			if (model.gamePlayTimeS < 10)
+			{
+				g.drawString("0", 1010, 680);
+				g.drawString(gameTimeSecond, 1030, 680);
+			}
+
+			// End of Timer Print
+			g.setFont(new Font("Times New Roman", Font.BOLD, 20));
 			g.setColor(new Color(255,255,255));
 
 			// Event Print
@@ -191,11 +246,12 @@ class View extends JPanel
 				g.drawString(eventString, 500, teamBoxHeight + 80 + (i * 20));
 				}
 			}
+		}
 
-			// Draw Controls
+		if (model.gamePhase == 4)
+		{
 			g.setColor(new Color(255,255,255));
-			g.drawString("Press 'A' to add 10 points to all players and print event messages. (Must have players on each team)  Press 'SPACE' to end game.", 100,25);
-			
+			g.drawString("Press 'SPACE' to end game.", 100,25);
 		}
 	}
 }
