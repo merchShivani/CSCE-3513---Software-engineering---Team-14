@@ -1,21 +1,33 @@
 import javax.swing.JFrame;
 import java.awt.Toolkit;
+import java.net.DatagramSocket;
+import java.net.SocketException;
+
 
 public class Game extends JFrame
 {
 	Model model;
 	View view;
 	Controller controller;
-	PlayerAddWindow playerAddWindow;
+	Server server;
+	DatagramSocket datagramSocket;
 
+	int frameCounter = 0;
 
-	//
 
 	public Game()
 	{
+
 		model = new Model();
 		controller = new Controller(model);
 		view = new View(controller, model);
+		
+		try {
+			datagramSocket = new DatagramSocket(1234);
+			server = new Server(datagramSocket, model);
+		} catch (SocketException e) {
+			System.out.println("Server is Down");
+		}
 
 		this.setTitle("Photon");
 		this.setSize(1280, 720);
@@ -53,7 +65,6 @@ public class Game extends JFrame
 		try
 		{
 			Thread.sleep(25);
-
 		} catch(Exception e) {
 			e.printStackTrace();
 			System.exit(1);

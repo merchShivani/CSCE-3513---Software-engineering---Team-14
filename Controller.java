@@ -30,6 +30,7 @@ class Controller implements KeyListener
 			case KeyEvent.VK_Z: model.clearTeams(); break;
 			case KeyEvent.VK_CONTROL: model.startGame(); break;
 			case KeyEvent.VK_ESCAPE: System.exit(0);
+			case KeyEvent.VK_S: model.printServerText();
 		}
 		}
 

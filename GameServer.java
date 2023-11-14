@@ -39,18 +39,10 @@ public class GameServer {
                     int transmitterID = Integer.parseInt(parts[0]);
                     int hitPlayerID = Integer.parseInt(parts[1]);
 
-                    // Process the received data based on the rules
-                    if (transmitterID == 66 && /* Check if the player is on the green team */) 
-                    {
-                        // Scored at the red base
-                        // Send 100 points and update codename with "B" prefix
-                    } else if (transmitterID == 148 && /* Check if the player is on the red team */) {
-                        // Scored at the green base
-                        // Send 100 points and update codename with "B" prefix
-                    } else {
-                        // Handle other cases, e.g., transmit the equipment ID of the player that was hit
-                    }
+                    System.out.println(transmitterID);
+                    System.out.println(hitPlayerID);
                 }
+
             }
         } catch (Exception e) {
             e.printStackTrace();

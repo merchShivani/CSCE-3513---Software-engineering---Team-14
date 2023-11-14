@@ -1,6 +1,12 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import javazoom.jl.player.advanced.AdvancedPlayer;
+import java.io.InputStream;
+
+
 
 class Model
 {
@@ -11,6 +17,12 @@ class Model
 	int redTeamScore = 0;
 	int greenTeamScore = 0;
 	int winningTeam = 2;
+	int topPlayer = 2;
+
+	AtomicInteger val;
+
+	String serverText = "No";
+	int serverInt = 7;
 
 	// Game Start Countdown
 	int gameStartCountdown = 30;
@@ -59,11 +71,20 @@ class Model
 	// Object for Player Add Window
 	PlayerAddWindow playeraddwindow;
 
+
 	//Database Check
 	boolean dataBaseSet = false;
 
+	// Variables for Music Playing MP3
+	AdvancedPlayer activeMusic;
+	InputStream inputStream;
+
+	// Scanner for Test
 	Scanner recieverScan;
 	Scanner senderScan;
+
+	String fileName = "Audio\\Track01.mp3";
+	Music music = new Music(fileName);
 
 	Model()
 	{
@@ -126,6 +147,11 @@ class Model
 		if (gamePhase == 2)
 		{
 			frameCounter += 1;
+
+			if (gameStartCountdown == 14 && frameCounter == 1)
+			{
+				musicPlay();
+			}
 
 			if (frameCounter == 40)
 			{
@@ -214,6 +240,11 @@ class Model
 		}
 	}
 
+	void printServerText()
+	{
+		System.out.println(serverInt);
+	}
+
 	// Resets Player Screen
 	void clearTeams()
 	{
@@ -237,6 +268,8 @@ class Model
 		// Clear Events
 		eventList.clear();
 
+		musicStop();
+
 		// Set Game Time back to 6 minutes
 		gamePlayTimeM = 6;
 		gamePlayTimeS = 0;
@@ -250,6 +283,8 @@ class Model
 			playerNew.currentScore = 0;
 		}
 	}
+
+
 
 	void countTeamPoints()
 	{
@@ -294,7 +329,69 @@ class Model
 	{
 		Collections.sort(redList, Collections.reverseOrder());
 		Collections.sort(greenList, Collections.reverseOrder());
+		findTopPlayer();
 	}
+
+	void findTopPlayer()
+	{
+		// Compare Top Players on Both Teams both teams must have atleast 1 player
+		if (redList.size() > 0 && greenList.size() > 0)
+		{
+			playerNew = redList.get(0);
+
+			playerCheck = greenList.get(0);
+
+		if (playerNew.currentScore > playerCheck.currentScore)
+			{
+				topPlayer = 0;
+			}
+		else if (playerNew.currentScore < playerCheck.currentScore)
+			{
+				topPlayer = 1;
+			}
+		else
+			{
+				topPlayer = 2;
+			}
+	}
+
+		// Check the player is top on own team RED
+		if (topPlayer == 0 && redList.size() > 1)
+		{
+			playerCheck = redList.get(1);
+			if (playerCheck.currentScore == playerNew.currentScore)
+			{
+				topPlayer = 2;
+			}
+		}
+
+		// Check the player is top on own team GREEN
+		if (topPlayer == 1 && greenList.size() > 1)
+		{
+			playerNew = greenList.get(1);
+			if (playerCheck.currentScore == playerNew.currentScore)
+			{
+				topPlayer = 2;
+			}
+		}
+	}
+
+	void musicPlay()
+	{
+		music.play();
+	}
+
+	void musicStop()
+	{
+		music.close();
+	}
+
+	void serverListen(String serverData)
+	{
+		playerCheck = redList.get(0);
+		playerCheck.currentScore += 20;
+	}
+
 
 
 	void openAddPlayerWindow()
