@@ -9,7 +9,16 @@ public class LaserTagPlayerClient {
 
             // Counter to track the number of times code 221 is received
             int code221Count = 0;
+            
+            // Indicate that the client has started.
+            System.out.println("Client started...");
 
+            // Display current thread information
+            Thread curretnThread = Thread.currentThread();
+            long threadId = curretnThread.getId();
+            String threadName = curretnThread.getName();
+            System.out.println("Current thread ID: " + threadId);
+            System.out.println("Current thread name: " + threadName);
             // Receive and process data loop
             while (true) 
             {
@@ -28,6 +37,7 @@ public class LaserTagPlayerClient {
                     // Check if code 221 has been received three times
                     if (code221Count == 3) 
                     {
+                        System.out.println("CLient Closed. Game End.");
                         break; // Exit the loop if code 221 is received three times
                     }
                 }
@@ -42,7 +52,7 @@ public class LaserTagPlayerClient {
 
     private static void processReceivedData(String receivedData) 
     {
-        // Implement your game logic here based on the received data format
+        // Implement game logic here based on the received data format
         // For demonstration, simply print the received data
         System.out.println("Received: " + receivedData);
     }
