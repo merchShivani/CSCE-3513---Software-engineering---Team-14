@@ -15,7 +15,16 @@ public class LaserTagGameServer
             // Game loop
             while (true) 
             {
-                System.out.println("Server Start");
+                //Indicate that the server has started
+                System.out.println("Server Start...");
+
+                // Display current thread information
+                Thread currentThread = Thread.currentThread();
+                long threadId = currentThread.getId();
+                String threadName = currentThread.getName();
+                System.out.println("Current thread ID: " + threadId);
+                System.out.println("Current thread name: " + threadName);
+
                 // Game start countdown timer (assuming 10 seconds for demonstration)
                 Thread.sleep(10000);
 
