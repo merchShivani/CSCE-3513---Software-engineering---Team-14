@@ -1,10 +1,18 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import javazoom.jl.player.advanced.AdvancedPlayer;
+
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
+import java.net.DatagramSocket;
+import java.net.SocketException;
+import java.nio.channels.Pipe;
+
 
 
 
@@ -19,10 +27,15 @@ class Model
 	int winningTeam = 2;
 	int topPlayer = 2;
 
-	AtomicInteger val;
+	LinkedBlockingQueue<Integer> Scores = new LinkedBlockingQueue<Integer>(2);
 
-	String serverText = "No";
-	int serverInt = 7;
+	int serverSenderID = 0;
+	int serverRecieverID = 0;
+	int previousSender = 0;
+	int previousReciever = 0;
+
+	int listen = 0;
+
 
 	// Game Start Countdown
 	int gameStartCountdown = 30;
@@ -71,7 +84,6 @@ class Model
 	// Object for Player Add Window
 	PlayerAddWindow playeraddwindow;
 
-
 	//Database Check
 	boolean dataBaseSet = false;
 
@@ -83,8 +95,17 @@ class Model
 	Scanner recieverScan;
 	Scanner senderScan;
 
-	String fileName = "Audio\\Track01.mp3";
+	String fileName = "Audio/Track01.mp3";
 	Music music = new Music(fileName);
+
+
+	// Server Information
+	Server server;
+	DatagramSocket datagramSocket;
+
+	// Pipe
+	final PipedInputStream  senderIn = new PipedInputStream();
+	final PipedInputStream  recieverIn = new PipedInputStream();
 
 	Model()
 	{
@@ -95,6 +116,13 @@ class Model
 
 		// Creates Player Add Window - Starts Hidden
 		playeraddwindow = new PlayerAddWindow();
+
+		try {
+			datagramSocket = new DatagramSocket(7500);
+			server = new Server(datagramSocket, senderIn, recieverIn);
+		} catch (SocketException e) {
+			System.out.println("Server is Down");
+		}
 
 		// List to hold information for Player and Login Squares and Gameplay Events
 		squareList = new ArrayList<PlayerSquare>();
@@ -171,14 +199,14 @@ class Model
 		{
 			frameCounter += 1;
 
-			if (frameCounter == 40 && gamePlayTimeS == 0)
+			if (frameCounter == 35 && gamePlayTimeS == 0)
 			{
 				gamePlayTimeS = 59;
 				frameCounter = 0;
 				gamePlayTimeM -= 1;
 			}
 
-			if (frameCounter == 40 && gamePlayTimeS != 0)
+			if (frameCounter == 35 && gamePlayTimeS != 0)
 			{
 				gamePlayTimeS -= 1;
 				frameCounter = 0;
@@ -188,7 +216,6 @@ class Model
 			{
 				gamePhase = 4;
 			}
-
 			countTeamPoints();
 			sortScores();
 		}
@@ -240,9 +267,23 @@ class Model
 		}
 	}
 
-	void printServerText()
+	void checkServer()
 	{
-		System.out.println(serverInt);
+		try {
+			serverSenderID = senderIn.read();
+			serverRecieverID = recieverIn.read();
+			
+		} catch (Exception e) {
+			serverSenderID = 0;
+			serverRecieverID = 0;
+		}
+
+		if (previousReciever != serverRecieverID || previousSender != serverSenderID)
+		{
+			codeNameHitEvent(serverSenderID, serverRecieverID);
+			previousSender = serverSenderID;
+			previousReciever = serverRecieverID;
+		}
 	}
 
 	// Resets Player Screen
@@ -283,8 +324,6 @@ class Model
 			playerNew.currentScore = 0;
 		}
 	}
-
-
 
 	void countTeamPoints()
 	{
@@ -386,14 +425,6 @@ class Model
 		music.close();
 	}
 
-	void serverListen(String serverData)
-	{
-		playerCheck = redList.get(0);
-		playerCheck.currentScore += 20;
-	}
-
-
-
 	void openAddPlayerWindow()
 	{
 		playeraddwindow.windowOpen = true;
@@ -413,15 +444,15 @@ class Model
 
 
 	// Create Event that one player hit another
-	void codeNameHitEvent()
+	void codeNameHitEvent(int serverSenderID, int serverRecieverID)
 	{
 		String senderCodeName = " ";
 		String recieverCodeName = " ";
 		String event = "hit";
 
+		/* Old Scanner Testing Code
 		int senderEquiptmentID;
 		int recieverEquiptmentID;
-
 		senderScan = new Scanner(System.in);
 		recieverScan = new Scanner(System.in);
 
@@ -430,18 +461,39 @@ class Model
 
 		System.out.println("Enter Reciever Equitment ID");
 		recieverEquiptmentID = recieverScan.nextInt();
+		*/
 
 		for (int i = 0; i < playerList.size(); i++)
 		{
 			playerNew = playerList.get(i);
 
-			if (playerNew.equipmentID == senderEquiptmentID)
+			if (playerNew.equipmentID == serverSenderID)
 			{
 				senderCodeName = playerNew.playerCodeName;
-				playerNew.currentScore += 10;
+
+				if (serverRecieverID == 43 && serverSenderID % 2 != 0)
+				{
+					playerNew.currentScore += 100;
+					recieverCodeName = "Green Base";
+				}
+
+				if (serverRecieverID == 53 && serverSenderID % 2 == 0)
+				{
+					playerNew.currentScore += 100;
+					recieverCodeName = "Red Base";
+				}
+
+				if (serverRecieverID % 2 != serverSenderID % 2)
+				{
+					playerNew.currentScore += 10;
+				}
+				else if (serverRecieverID != 43 && serverRecieverID != 53)
+				{
+					event = "Friendly Fire";
+				}
 			}
 
-			if (playerNew.equipmentID == recieverEquiptmentID)
+			if (playerNew.equipmentID == serverRecieverID)
 			{
 				recieverCodeName = playerNew.playerCodeName;
 			}

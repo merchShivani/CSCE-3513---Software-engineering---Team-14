@@ -1,7 +1,7 @@
 import javax.swing.JFrame;
 import java.awt.Toolkit;
 import java.net.DatagramSocket;
-import java.net.SocketException;
+
 
 
 public class Game extends JFrame
@@ -12,8 +12,7 @@ public class Game extends JFrame
 	Server server;
 	DatagramSocket datagramSocket;
 
-	int frameCounter = 0;
-
+	public static volatile int threadInt = 0;
 
 	public Game()
 	{
@@ -22,13 +21,6 @@ public class Game extends JFrame
 		controller = new Controller(model);
 		view = new View(controller, model);
 		
-		try {
-			datagramSocket = new DatagramSocket(1234);
-			server = new Server(datagramSocket, model);
-		} catch (SocketException e) {
-			System.out.println("Server is Down");
-		}
-
 		this.setTitle("Photon");
 		this.setSize(1280, 720);
 		this.setFocusable(true);
@@ -55,6 +47,8 @@ public class Game extends JFrame
 {
 	while(true)
 	{
+		
+
 		//Run the Update Functions for the Controller, Model and View
 		controller.update();
 		model.update();

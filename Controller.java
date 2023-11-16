@@ -30,7 +30,6 @@ class Controller implements KeyListener
 			case KeyEvent.VK_Z: model.clearTeams(); break;
 			case KeyEvent.VK_CONTROL: model.startGame(); break;
 			case KeyEvent.VK_ESCAPE: System.exit(0);
-			case KeyEvent.VK_S: model.printServerText();
 		}
 		}
 
@@ -40,28 +39,27 @@ class Controller implements KeyListener
 			{
 				model.gamePhase = 1;
 				model.endGame();
-			} 
+			}
 		}
 
 		if (model.gamePhase == 3)
 		{
-			// Use A key while in Gameplay to add 10 points to all players and print an event.
+			/*Use A key while in Gameplay to add 10 points to all players and print an event.
 			if (e.getKeyCode() == KeyEvent.VK_A)
 			{
 				model.codeNameHitEvent();
+			}
+			*/
+
+			if (e.getKeyCode() == KeyEvent.VK_S);
+			{
+				model.checkServer();
 			}
 
 			if (e.getKeyCode() == KeyEvent.VK_Q)
 			{
 				model.getPlayerInfoTest();
 			}
-
-			if (e.getKeyCode() == KeyEvent.VK_W)
-			{
-				model.sortScores();
-			}
-
-
 		}
 	}
 
