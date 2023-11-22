@@ -1,22 +1,26 @@
 import javax.swing.JFrame;
 import java.awt.Toolkit;
+import java.net.DatagramSocket;
+
+
 
 public class Game extends JFrame
 {
 	Model model;
 	View view;
 	Controller controller;
-	PlayerAddWindow playerAddWindow;
+	Server server;
+	DatagramSocket datagramSocket;
 
-
-	//
+	public static volatile int threadInt = 0;
 
 	public Game()
 	{
+
 		model = new Model();
 		controller = new Controller(model);
 		view = new View(controller, model);
-
+		
 		this.setTitle("Photon");
 		this.setSize(1280, 720);
 		this.setFocusable(true);
@@ -43,6 +47,8 @@ public class Game extends JFrame
 {
 	while(true)
 	{
+		
+
 		//Run the Update Functions for the Controller, Model and View
 		controller.update();
 		model.update();
@@ -53,7 +59,6 @@ public class Game extends JFrame
 		try
 		{
 			Thread.sleep(25);
-
 		} catch(Exception e) {
 			e.printStackTrace();
 			System.exit(1);

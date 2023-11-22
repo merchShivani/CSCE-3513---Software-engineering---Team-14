@@ -131,8 +131,7 @@ public class SupabaseOperations {
     public static Player parseJsonIn(String jsonString) {
         Player playerIn = new Player();
 
-        try
-        {
+        try {
             // Parse the JSON string into a JSONArray
             JSONArray jsonArray = new JSONArray(jsonString);
 
@@ -152,10 +151,7 @@ public class SupabaseOperations {
                 playerIn.SetPlayerFirstName(firstName);
                 playerIn.SetPlayerLastName(lastName);
                 playerIn.SetHighScore(highScore);
-            } 
-            else 
-            {
-                System.out.println("Invalid JSON structure");
+            } else {
                 int id = 0;
                 String codename = "";
                 String firstName = "";
@@ -168,9 +164,7 @@ public class SupabaseOperations {
                 playerIn.SetPlayerLastName(lastName);
                 playerIn.SetHighScore(highScore);
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

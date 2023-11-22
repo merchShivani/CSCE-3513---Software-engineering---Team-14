@@ -261,8 +261,8 @@ class View extends JPanel
 			for (int i = 0; i < model.eventList.size(); i++)
 			{
 				eventHolder = model.eventList.get(model.eventList.size() - (i+1));
-				String number = Integer.toString(model.eventList.size() - (i+1));
-				String eventString = eventHolder.senderCodeName + " " + eventHolder.actionEvent + " " + eventHolder.recieverCodeName + " " + number;
+				//String number = Integer.toString(model.eventList.size() - (i+1));
+				String eventString = eventHolder.senderCodeName + " " + eventHolder.actionEvent + " " + eventHolder.recieverCodeName;
 				if (teamBoxHeight + 60 + (i*20) < 630)
 				{
 				g.drawString(eventString, 500, teamBoxHeight + 80 + (i * 20));

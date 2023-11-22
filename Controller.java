@@ -37,30 +37,23 @@ class Controller implements KeyListener
 		{
 			if (e.getKeyCode() == KeyEvent.VK_SPACE)
 			{
-				model.gamePhase = 1;
 				model.endGame();
-			} 
+			}
 		}
 
 		if (model.gamePhase == 3)
 		{
-			// Use A key while in Gameplay to add 10 points to all players and print an event.
+			/*Use A key while in Gameplay to add 10 points to all players and print an event.
 			if (e.getKeyCode() == KeyEvent.VK_A)
 			{
 				model.codeNameHitEvent();
 			}
+			*/
 
 			if (e.getKeyCode() == KeyEvent.VK_Q)
 			{
 				model.getPlayerInfoTest();
 			}
-
-			if (e.getKeyCode() == KeyEvent.VK_W)
-			{
-				model.sortScores();
-			}
-
-
 		}
 	}
 
