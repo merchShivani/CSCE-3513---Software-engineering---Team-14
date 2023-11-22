@@ -1,17 +1,12 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-import java.util.concurrent.LinkedBlockingQueue;
-
+import java.util.concurrent.ConcurrentLinkedQueue;
 import javazoom.jl.player.advanced.AdvancedPlayer;
-
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 import java.net.DatagramSocket;
 import java.net.SocketException;
-import java.nio.channels.Pipe;
+
 
 
 
@@ -27,15 +22,12 @@ class Model
 	int winningTeam = 2;
 	int topPlayer = 2;
 
-	LinkedBlockingQueue<Integer> Scores = new LinkedBlockingQueue<Integer>(2);
-
 	int serverSenderID = 0;
 	int serverRecieverID = 0;
 	int previousSender = 0;
 	int previousReciever = 0;
 
 	int listen = 0;
-
 
 	// Game Start Countdown
 	int gameStartCountdown = 30;
@@ -98,14 +90,15 @@ class Model
 	String fileName = "Audio/Track01.mp3";
 	Music music = new Music(fileName);
 
+	final ConcurrentLinkedQueue<String> mainToServer = new ConcurrentLinkedQueue<String>();
+	final ConcurrentLinkedQueue<String> serverToMain = new ConcurrentLinkedQueue<String>();
+	String serverMessage;
+	String messageToServer;
+
 
 	// Server Information
 	Server server;
 	DatagramSocket datagramSocket;
-
-	// Pipe
-	final PipedInputStream  senderIn = new PipedInputStream();
-	final PipedInputStream  recieverIn = new PipedInputStream();
 
 	Model()
 	{
@@ -119,7 +112,7 @@ class Model
 
 		try {
 			datagramSocket = new DatagramSocket(7500);
-			server = new Server(datagramSocket, senderIn, recieverIn);
+			server = new Server(datagramSocket, mainToServer, serverToMain);
 		} catch (SocketException e) {
 			System.out.println("Server is Down");
 		}
@@ -199,6 +192,15 @@ class Model
 		{
 			frameCounter += 1;
 
+			if (frameCounter == 0 && gamePlayTimeM == 6)
+			{
+				for (int i = 0; i < 3; i++)
+				{
+					messageToServer = "221";
+					mainToServer.add(messageToServer);
+				}
+			}
+
 			if (frameCounter == 35 && gamePlayTimeS == 0)
 			{
 				gamePlayTimeS = 59;
@@ -218,6 +220,7 @@ class Model
 			}
 			countTeamPoints();
 			sortScores();
+			readServer();
 		}
 	}
 
@@ -267,25 +270,6 @@ class Model
 		}
 	}
 
-	void checkServer()
-	{
-		try {
-			serverSenderID = senderIn.read();
-			serverRecieverID = recieverIn.read();
-			
-		} catch (Exception e) {
-			serverSenderID = 0;
-			serverRecieverID = 0;
-		}
-
-		if (previousReciever != serverRecieverID || previousSender != serverSenderID)
-		{
-			codeNameHitEvent(serverSenderID, serverRecieverID);
-			previousSender = serverSenderID;
-			previousReciever = serverRecieverID;
-		}
-	}
-
 	// Resets Player Screen
 	void clearTeams()
 	{
@@ -323,6 +307,8 @@ class Model
 			playerNew = playerList.get(i);
 			playerNew.currentScore = 0;
 		}
+
+		gamePhase = 1;
 	}
 
 	void countTeamPoints()
@@ -370,6 +356,23 @@ class Model
 		Collections.sort(greenList, Collections.reverseOrder());
 		findTopPlayer();
 	}
+
+	void readServer()
+	{
+		serverMessage = serverToMain.poll();
+
+		if (serverMessage != null)
+		{
+			String[] parts = serverMessage.split(":");
+			if (parts.length == 2) 
+			{
+				serverSenderID = Integer.parseInt(parts[0]);
+				serverRecieverID = Integer.parseInt(parts[1]);
+				codeNameHitEvent(serverSenderID, serverRecieverID);
+			}
+		}
+	}
+
 
 	void findTopPlayer()
 	{
@@ -446,8 +449,8 @@ class Model
 	// Create Event that one player hit another
 	void codeNameHitEvent(int serverSenderID, int serverRecieverID)
 	{
-		String senderCodeName = " ";
-		String recieverCodeName = " ";
+		String senderCodeName = "";
+		String recieverCodeName = "";
 		String event = "hit";
 
 		/* Old Scanner Testing Code
@@ -499,8 +502,11 @@ class Model
 			}
 		}
 
+		if (recieverCodeName != "" && senderCodeName != "")
+		{
 	    eventHolder = new Event(recieverCodeName, senderCodeName, event);
 		eventList.add(eventHolder);
+		}
 	}
 
 	// Check the size of each team to determine the size of the Play Windows

@@ -37,7 +37,6 @@ class Controller implements KeyListener
 		{
 			if (e.getKeyCode() == KeyEvent.VK_SPACE)
 			{
-				model.gamePhase = 1;
 				model.endGame();
 			}
 		}
@@ -50,11 +49,6 @@ class Controller implements KeyListener
 				model.codeNameHitEvent();
 			}
 			*/
-
-			if (e.getKeyCode() == KeyEvent.VK_S);
-			{
-				model.checkServer();
-			}
 
 			if (e.getKeyCode() == KeyEvent.VK_Q)
 			{

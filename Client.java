@@ -22,7 +22,7 @@ public class Client {
             try{
                 String messageToSend = scanner.nextLine();
                 buffer = messageToSend.getBytes();
-                DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length, inetAddress, 1234);
+                DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length, inetAddress, 7500);
                 datagramSocket.send(datagramPacket);
                 datagramSocket.receive(datagramPacket);
                 String messageFromServer = new String(datagramPacket.getData(), 0, datagramPacket.getLength());
@@ -43,13 +43,4 @@ public class Client {
         System.out.println("Send datagram packets to a server");
         clinet.sendThenReceive();
     }
-
-
-
-
-
-
-
-
-
 }
