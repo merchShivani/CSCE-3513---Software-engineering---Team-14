@@ -586,6 +586,12 @@ class Model
 		// Add Equiptment to Player Instance
 		playerNew.equipmentID = Integer.valueOf(playeraddwindow.windowEquipment);
 
+		String idStringOut = "" + playerID;
+		if(SupabaseOperations.read("id", idStringOut).getID() == 0)
+		{
+			SupabaseOperations.create(playerNew);
+		}
+		
 		playerList.add(playerNew);
 
 		// Update Squares

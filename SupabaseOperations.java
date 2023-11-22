@@ -152,7 +152,17 @@ public class SupabaseOperations {
                 playerIn.SetPlayerLastName(lastName);
                 playerIn.SetHighScore(highScore);
             } else {
-                System.out.println("Invalid JSON structure");
+                int id = 0;
+                String codename = "";
+                String firstName = "";
+                String lastName = "";
+                int highScore = 0;
+
+                playerIn.SetID(id);
+                playerIn.SetCodeName(codename);
+                playerIn.SetPlayerFirstName(firstName);
+                playerIn.SetPlayerLastName(lastName);
+                playerIn.SetHighScore(highScore);
             }
         } catch (Exception e) {
             e.printStackTrace();
