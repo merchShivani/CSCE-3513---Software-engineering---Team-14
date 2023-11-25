@@ -480,13 +480,13 @@ class Model
 					recieverCodeName = "Green Base";
 				}
 
-				if (serverRecieverID == 53 && serverSenderID % 2 == 0)
+				else if (serverRecieverID == 53 && serverSenderID % 2 == 0)
 				{
 					playerNew.currentScore += 100;
 					recieverCodeName = "Red Base";
 				}
 
-				if (serverRecieverID % 2 != serverSenderID % 2)
+				else if (serverRecieverID % 2 != serverSenderID % 2)
 				{
 					playerNew.currentScore += 10;
 				}
