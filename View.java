@@ -16,6 +16,7 @@ class View extends JPanel
 	BufferedImage photonSplash;
 	BufferedImage photonPlayerLogin;
 	BufferedImage photonGameplay;
+	BufferedImage photonB;
 
 	int blinkTimer = 0;
 
@@ -27,7 +28,7 @@ class View extends JPanel
     		this.photonSplash = ImageIO.read(new File("Photon_Resize.jpg"));
 			this.photonPlayerLogin = ImageIO.read(new File("Photon_Player_Select15.png"));
 			this.photonGameplay = ImageIO.read(new File("Photon_Gameplay_Placeholder.jpg"));
-			this.photonB = ImageIO.read(new File("B.jpg"));
+			this.photonB = ImageIO.read(new File("B.png"));
 		}
 		catch(Exception e) 
 		{

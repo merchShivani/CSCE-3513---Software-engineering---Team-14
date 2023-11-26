@@ -478,14 +478,14 @@ class Model
 				{
 					playerNew.currentScore += 100;
 					recieverCodeName = "Green Base";
-					playerNew.hasScoredOnBase = true; 
+					playerNew.setScoredOnBase(true);
 				}
 
 				else if (serverRecieverID == 53 && serverSenderID % 2 == 0)
 				{
 					playerNew.currentScore += 100;
 					recieverCodeName = "Red Base";
-					playerNew.hasScoredOnBase = true; 
+					playerNew.setScoredOnBase(true);
 				}
 
 				else if (serverRecieverID % 2 != serverSenderID % 2)
