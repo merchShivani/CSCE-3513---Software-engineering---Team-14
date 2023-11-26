@@ -27,6 +27,7 @@ class View extends JPanel
     		this.photonSplash = ImageIO.read(new File("Photon_Resize.jpg"));
 			this.photonPlayerLogin = ImageIO.read(new File("Photon_Player_Select15.png"));
 			this.photonGameplay = ImageIO.read(new File("Photon_Gameplay_Placeholder.jpg"));
+			this.photonB = ImageIO.read(new File("B.jpg"));
 		}
 		catch(Exception e) 
 		{
@@ -97,6 +98,10 @@ class View extends JPanel
 
 				// Draws PlayerCodeName
 				g.drawString(playerInfo.playerCodeName, playerInfo.menux+300, playerInfo.menuy+10);
+
+				if (playerInfo.hasScoredOnBase()) {
+                g.drawImage(this.photonB, playerInfo.menux + 280, playerInfo.menuy - 10, null); // Adjust coordinates as needed
+            }
 			}
 		}
 
@@ -200,6 +205,9 @@ class View extends JPanel
 					// Draws PlayerCodeName
 					g.drawString(playerInfo.playerCodeName, playerInfo.menux + 100, (145 + i * 30) - 50);
 				}
+				if (playerInfo.hasScoredOnBase()) {
+					g.drawImage(this.photonB, playerInfo.menux + 80, (145 + i * 30) - 60, null); // Adjust coordinates as needed
+        		}
 			}
 
 			// Print Green Team
@@ -226,6 +234,9 @@ class View extends JPanel
 				// Draws PlayerCodeName
 				g.drawString(playerInfo.playerCodeName, playerInfo.menux + 100, (145 + j * 30) - 50);
 				}
+				if (playerInfo.hasScoredOnBase()) {
+            	g.drawImage(this.photonB, playerInfo.menux + 80, (145 + j * 30) - 60, null); // Adjust coordinates as needed
+        		}
 			}
 
 
