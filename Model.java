@@ -174,6 +174,15 @@ class Model
 				musicPlay();
 			}
 
+			if (gameStartCountdown == 1 && frameCounter == 35)
+			{
+				for (int i = 0; i < 3; i++)
+				{
+					messageToServer = "202";
+					mainToServer.add(messageToServer);
+				}
+			}
+
 			if (frameCounter == 40)
 			{
 				gameStartCountdown -= 1;
@@ -191,15 +200,6 @@ class Model
 		if (gamePhase == 3)
 		{
 			frameCounter += 1;
-
-			if (frameCounter == 0 && gamePlayTimeM == 6)
-			{
-				for (int i = 0; i < 3; i++)
-				{
-					messageToServer = "221";
-					mainToServer.add(messageToServer);
-				}
-			}
 
 			if (frameCounter == 35 && gamePlayTimeS == 0)
 			{

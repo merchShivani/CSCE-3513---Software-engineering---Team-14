@@ -20,6 +20,11 @@ public class Server extends Thread
     final ConcurrentLinkedQueue<String> mainToServer;
     String messageFromMain;
 	String messageToMain;
+    String sendToClients;
+
+    boolean serverListen = false;
+    int startCount = 0;
+    
 
     public Server(DatagramSocket datagramSocket, ConcurrentLinkedQueue<String> mainToServer, ConcurrentLinkedQueue<String> serverToMain) throws SocketException
     {
@@ -34,6 +39,21 @@ public class Server extends Thread
     {
         while (runThread)
         {
+
+            messageFromMain = mainToServer.poll();
+            if (messageFromMain == "202")
+            {
+                System.out.println("Recieved");
+                startCount += 1;
+            }
+
+            if (startCount == 3)
+            {
+                serverListen = true;
+            }
+
+            if (serverListen)
+            {
             try{
                 DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length);
                 datagramSocket.receive(datagramPacket);
@@ -81,5 +101,6 @@ public class Server extends Thread
                 System.out.println("Program Error, Exit Now");
             }
         }
+    }
     }
 }
