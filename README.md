@@ -31,13 +31,13 @@ The file base also includes the implementation of a UDP sockets.
 
 ## Working Stage: Sprint 4
 
-## Music Track Selection
+Music Track Selection
 We've introduced a dynamic element to the game by implementing a random music track selection. Now, each gameplay session is accompanied by a soundtrack. Players can expect a diverse and engaging auditory experience as they navigate through the laser tag arena.
 
-## Stylized "B" for Base Hits
+Stylized "B" for Base Hits
 To provide instant feedback and enhance the visual cues during gameplay, we've added a stylized "B" that appears whenever a player successfully hits the base. This visual indicator not only acknowledges the player's achievement but also makes every interaction with the base.
 
-## Game Execution with Traffic Generator
+Game Execution with Traffic Generator
 As part of our commitment to testing and performance optimization, we've integrated the game with a traffic generator provided by our instructor. This tool allows us to simulate varying levels of network activity, helping us assess the game's robustness and performance under different conditions. By running the game with the traffic generator, we aim to identify and address potential network-related challenges, ensuring a seamless and enjoyable multiplayer gaming experience.
 
 ## Contributing
