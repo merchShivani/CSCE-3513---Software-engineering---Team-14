@@ -26,10 +26,12 @@ public class Client {
                 datagramSocket.send(datagramPacket);
                 datagramSocket.receive(datagramPacket);
                 String messageFromServer = new String(datagramPacket.getData(), 0, datagramPacket.getLength());
-                System.out.println("Player Hit: " + messageFromServer);    
+                System.out.println("Player Hit: " + messageFromServer);
+                System.out.println("Enter Anoter Gameplay Event"); 
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println("Program Error, Ending Now");
+                scanner.close();
                 break;
             }            
         }
@@ -37,10 +39,11 @@ public class Client {
 
     public static void main (String[] args) throws SocketException, UnknownHostException
     {
-        DatagramSocket datagramSocket = new DatagramSocket();
+        DatagramSocket datagramSocket = new DatagramSocket(7501);
         InetAddress inetAddress = InetAddress.getByName("localhost");
         Client clinet = new Client(datagramSocket, inetAddress);
-        System.out.println("Send datagram packets to a server");
+        System.out.println("Enter Player Information in format (Player Who Hit):(Player Hit)");
+        System.out.println("Example 1:2");
         clinet.sendThenReceive();
     }
 }

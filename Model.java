@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import javazoom.jl.player.advanced.AdvancedPlayer;
 import java.io.InputStream;
@@ -30,7 +29,7 @@ class Model
 	int frameCounter = 0;
 
 	// Gameplay Timer // Minute // Seconds
-	int gamePlayTimeM = 6;
+	int gamePlayTimeM = 1;
 	int gamePlayTimeS = 0;
 
 	// Is the User entering information for the players
@@ -79,10 +78,8 @@ class Model
 	AdvancedPlayer activeMusic;
 	InputStream inputStream;
 
-	// Scanner for Test
-	Scanner recieverScan;
-	Scanner senderScan;
 
+	// Change the Relative Path
 	String fileName = "Audio/Track01.mp3";
 	Music music = new Music(fileName);
 
@@ -94,7 +91,7 @@ class Model
 
 	// Server Information
 	Server server;
-	DatagramSocket datagramSocket;
+	DatagramSocket datagramSocketBroadcast;
 
 	Model()
 	{
@@ -106,9 +103,10 @@ class Model
 		// Creates Player Add Window - Starts Hidden
 		playeraddwindow = new PlayerAddWindow();
 
-		try {
-			datagramSocket = new DatagramSocket(7500);
-			server = new Server(datagramSocket, mainToServer, serverToMain);
+		try 
+		{
+			datagramSocketBroadcast = new DatagramSocket(7500);
+			server = new Server(datagramSocketBroadcast, mainToServer, serverToMain);
 		} catch (SocketException e) {
 			System.out.println("Server is Down");
 		}
@@ -172,11 +170,8 @@ class Model
 
 			if (gameStartCountdown == 1 && frameCounter == 35)
 			{
-				for (int i = 0; i < 3; i++)
-				{
 					messageToServer = "202";
 					mainToServer.add(messageToServer);
-				}
 			}
 
 			if (frameCounter == 40)
@@ -212,6 +207,12 @@ class Model
 
 			if (gamePlayTimeM == 0 && gamePlayTimeS == 0)
 			{
+				for (int i = 0; i < 3; i++)
+				{
+					messageToServer = "221";
+					mainToServer.add(messageToServer);
+				}
+
 				gamePhase = 4;
 			}
 			countTeamPoints();
@@ -288,9 +289,7 @@ class Model
 	{
 		// Clear Events
 		eventList.clear();
-
 		musicStop();
-
 		// Set Game Time back to 6 minutes
 		gamePlayTimeM = 6;
 		gamePlayTimeS = 0;
@@ -303,6 +302,16 @@ class Model
 			playerNew = playerList.get(i);
 			playerNew.currentScore = 0;
 			playerNew.hasScoredOnBase = false;
+		}
+
+		while (messageToServer != null)
+		{
+			messageToServer = mainToServer.poll();
+		}
+
+		while (serverMessage != null)
+		{
+			serverMessage = serverToMain.poll();
 		}
 
 		gamePhase = 1;

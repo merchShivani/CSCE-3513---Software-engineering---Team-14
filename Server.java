@@ -23,14 +23,14 @@ public class Server extends Thread
     String sendToClients;
 
     boolean serverListen = false;
-    int startCount = 0;
-    
+    int endCount = 0;
 
     public Server(DatagramSocket datagramSocket, ConcurrentLinkedQueue<String> mainToServer, ConcurrentLinkedQueue<String> serverToMain) throws SocketException
     {
         this.mainToServer = mainToServer;
         this.serverToMain = serverToMain;
         this.datagramSocket = datagramSocket;
+        datagramSocket.setBroadcast(true);
         start();
     }
 
@@ -39,31 +39,49 @@ public class Server extends Thread
     {
         while (runThread)
         {
-
             messageFromMain = mainToServer.poll();
             if (messageFromMain == "202")
             {
-                startCount += 1;
-            }
-
-            if (startCount == 3)
-            {
+                sendToClients = messageFromMain;
+                bufferClient = sendToClients.getBytes();
+                try {
+                DatagramPacket datagramPacket = new DatagramPacket(bufferClient, bufferClient.length, InetAddress.getByName("127.0.0.1"), 7501);
+                datagramSocket.send(datagramPacket);
+                } catch (Exception e) {
+                   System.out.println("Send Failed");
+                }
                 serverListen = true;
             }
-
+            
             if (serverListen)
             {
             try{
+
+                messageFromMain = mainToServer.poll();
+                if (messageFromMain == "221")
+                {
+                endCount += 1;
+                sendToClients = messageFromMain;
+                bufferClient = sendToClients.getBytes();
+                try {
+                DatagramPacket datagramPacket = new DatagramPacket(bufferClient, bufferClient.length, InetAddress.getByName("127.0.0.1"), 7501);
+                datagramSocket.send(datagramPacket);
+                } catch (Exception e) {
+                   System.out.println("Send Failed");
+                }
+                if (endCount == 3)
+                {
+                serverListen = false;
+                endCount = 0;
+                }
+                }
+                
                 DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length);
                 datagramSocket.receive(datagramPacket);
-
-                InetAddress inetAddress = datagramPacket.getAddress();
-                int port = datagramPacket.getPort();
                 String messageFromClient = new String(datagramPacket.getData(), 0,datagramPacket.getLength());
-
-                
                 String[] parts = messageFromClient.split(":");
-                if (parts.length == 2) {
+                if (parts.length == 2) 
+                {
                     transmitterID = Integer.parseInt(parts[0]);
                     hitPlayerID = Integer.parseInt(parts[1]);
                 }
@@ -73,14 +91,14 @@ public class Server extends Thread
 
                 // Send Transmit ID to Main Thread/ Model
                 serverToMain.add(messageFromClient);
-                datagramPacket = new DatagramPacket(bufferClient, bufferClient.length, inetAddress, port);
+                datagramPacket = new DatagramPacket(bufferClient, bufferClient.length, InetAddress.getByName("127.0.0.1"), 7501);
                 datagramSocket.send(datagramPacket);
 
             } catch (IOException e){
                 e.printStackTrace();
                 System.out.println("Program Error, Exit Now");
             }
+            }
         }
-    }
     }
 }

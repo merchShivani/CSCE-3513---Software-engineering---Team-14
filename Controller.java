@@ -33,7 +33,7 @@ class Controller implements KeyListener
 		}
 		}
 
-		if (model.gamePhase == 4 || model.gamePhase == 3)
+		if (model.gamePhase == 4)
 		{
 			if (e.getKeyCode() == KeyEvent.VK_SPACE)
 			{
@@ -41,20 +41,15 @@ class Controller implements KeyListener
 			}
 		}
 
+		/* 
 		if (model.gamePhase == 3)
 		{
-			/*Use A key while in Gameplay to add 10 points to all players and print an event.
-			if (e.getKeyCode() == KeyEvent.VK_A)
-			{
-				model.codeNameHitEvent();
-			}
-			*/
-
 			if (e.getKeyCode() == KeyEvent.VK_Q)
 			{
 				model.getPlayerInfoTest();
 			}
 		}
+		*/
 	}
 
 	
