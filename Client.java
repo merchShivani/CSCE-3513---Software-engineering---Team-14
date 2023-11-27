@@ -26,7 +26,7 @@ public class Client {
                 datagramSocket.send(datagramPacket);
                 datagramSocket.receive(datagramPacket);
                 String messageFromServer = new String(datagramPacket.getData(), 0, datagramPacket.getLength());
-                System.out.println("The server says you said: " + messageFromServer);    
+                System.out.println("Player Hit: " + messageFromServer);    
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println("Program Error, Ending Now");

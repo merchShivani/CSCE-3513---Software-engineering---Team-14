@@ -43,7 +43,6 @@ public class Server extends Thread
             messageFromMain = mainToServer.poll();
             if (messageFromMain == "202")
             {
-                System.out.println("Recieved");
                 startCount += 1;
             }
 
@@ -62,40 +61,21 @@ public class Server extends Thread
                 int port = datagramPacket.getPort();
                 String messageFromClient = new String(datagramPacket.getData(), 0,datagramPacket.getLength());
 
-                /* 
+                
                 String[] parts = messageFromClient.split(":");
                 if (parts.length == 2) {
                     transmitterID = Integer.parseInt(parts[0]);
                     hitPlayerID = Integer.parseInt(parts[1]);
-                    System.out.println("Transmit ID: " + transmitterID);
-                    System.out.println("Hit ID: " + hitPlayerID);
-                }
-                */
-
-                /* 
-                if (hitPlayerID == 53 && transmitterID % 2 == 0)
-                {
-                    System.out.println("Red Base Score");
                 }
 
-                if (hitPlayerID == 43 && transmitterID % 2 != 0)
-                {
-                    System.out.println("Green Base Score");
-                }
-                */
+                sendToClients = String.valueOf(hitPlayerID);
+                bufferClient = sendToClients.getBytes();
 
                 // Send Transmit ID to Main Thread/ Model
                 serverToMain.add(messageFromClient);
-
-                messageFromMain = mainToServer.poll();
-
-                if (messageFromMain != null)
-                {
-                bufferClient = messageFromMain.getBytes();
-                }
-
                 datagramPacket = new DatagramPacket(bufferClient, bufferClient.length, inetAddress, port);
-                datagramSocket.send(datagramPacket);            
+                datagramSocket.send(datagramPacket);
+
             } catch (IOException e){
                 e.printStackTrace();
                 System.out.println("Program Error, Exit Now");

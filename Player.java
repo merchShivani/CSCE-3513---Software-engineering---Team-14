@@ -13,8 +13,7 @@ public class Player implements Comparable <Player> {
 
     // Red == 0, Green == 1
     int team;
-
-    private boolean hasScoredOnBase = false;
+    public boolean hasScoredOnBase = false;
 
     Player() {
         this.playerID = -1;

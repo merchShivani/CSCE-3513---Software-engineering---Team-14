@@ -47,8 +47,6 @@ public class Game extends JFrame
 {
 	while(true)
 	{
-		
-
 		//Run the Update Functions for the Controller, Model and View
 		controller.update();
 		model.update();

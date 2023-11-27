@@ -7,10 +7,6 @@ import java.io.InputStream;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
-
-
-
-
 class Model
 {
 	int gamePhase;
@@ -306,6 +302,7 @@ class Model
 		{
 			playerNew = playerList.get(i);
 			playerNew.currentScore = 0;
+			playerNew.hasScoredOnBase = false;
 		}
 
 		gamePhase = 1;
