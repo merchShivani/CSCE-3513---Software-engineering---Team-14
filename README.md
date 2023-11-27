@@ -14,25 +14,34 @@ Photon laser tag is the main software for the operation of a laser tag game. It 
 
 ## Installation requirements
 The current state of the project requires the use of [java](https://www.java.com/download/ie_manual.jsp). This will allow you to view and complie the code.
-The program is built with Core Java Libaries, no external downloads will be required outside of the files included on this GitHub location. Errors with GameServer.java and SupabaseOperations.java will not effect the functionality for Sprint 3.
+The program is mostly built with core Java Libaries, all external libaries have been included in this repo.
+
 The current program version has been successfully tested on Mac OS OpenJDK 17.0.5 and Windows 10 java 19.0.2
-Within Visual Studio Code, select the Game.java file and use the run Java button in the upper right corner to run the program.
 
-## Sprint 3
-The Play Action Screen is implemented. At its current state, test events have been implemented to ensure that the game feed and player scores are functioning properly within the screen. Within the Play Action Screen, using the "A" key will result in every player earning 10 points. These points will be added to display each team's total score. Along with adding points, an event messages equal to the number of players will be printed. If there are fours players then four messages will be printed. At the moment, the message will be the first codename on the red team hitting the first codename on the green team. Each event is numbered and the events will disapear once they reach the bottom edge of the Event Window. The size of the Player Window and Events Window within the Play Action Screen are dynamic and will change based on the number of players on each team. Using the "Space" key at the Player Action Screen will cause the active game to end. When the game ends, all events and player scores will be cleared. Codename, ID and Equitment information will remain from the previous game and can be reused for another game instance. Pressing the 'Z' key at the Player Roster Screen will clear all player entries and reset the teams.  
+## How to Run?
+Download this repo with the Download Zip command on Github. Unzip the files and place the folder on your computer, desktop is a good location to quickly grab the folder.
+Within Visual Studio Code, open the folder for this repo use the run Java button in the upper right corner to run the program. When prompted select Game as the file to run.
 
-Additional functions added: A count down will now display after pressing 'CTRL' to start the game from the Player Roster Screen, it will then display a 30 second timer before switching to the Play Action Screen with the listed players on both teams, their scores, and a game feed that will show the interactions between players (e.g. who got hit by who and if player has tagged the other teams base.). 
+All button prompts should be present on the Photon game User Interface. At the conclusion of the gameplay timer, a message will apear at the top prompting the user to use the space key to end the game and return to the player selection screen.
 
-The program can be successfully completed without the use of a mouse. The "Escape" key will close the main window when the user is not actively entering player information and is on the player roster screen. User controls have been provided for each phase of the program with the general controls located either at the top or bottom of the screen.
+## Used Libraries
+In the event of compiling issues. Make sure the following libraries are refrenced in the build path of the project. The files have been provided in this repo.
+"lib/**/*.jar",
+"json-20230618.jar",
+"jl1.0.1.jar"
 
-The font of the program will depend on the fonts present on your computer. The "Georgia" typeface is the ground truth font for the Player Roster Screen which is present on Mac OS. Windows devices without the "Georgia" font could have text that goes over the bounds of the player entry boxes. The rest of the program uses "Times New Roman" as the font.
+## Testing Clients
+There are two methods for testing the UDP connection for the main program.
 
-The file base also includes the implementation of a UDP sockets.
+Option 1 - Python Traffic Generator
+Within this Github Repo is the Python traffic generator provided by our instructor. To run the generator, open a new Visual Studio Code window and open only the python_trafficgenarator_v2.py file. Compile and run the file within the new window. Enter two players on each team (Red must be Odd Equipment ID and Green must be Even Equipment ID) on the main program then add the four players to the traffic generator. The generator will wait once the players are entered. Return to the main file and continue to the game counter. Once gameplay starts the generator will produce events for all four players until the gameplay timer hits zero.
 
-## Working Stage: Sprint 4
+Option 2 - Client File (Test Base Hit and Friendly Fire)
+Within this Github Repo is a Java file named Client.java, this file can be ran independent of the main Game file and can be used to test the Photon game including base hit, friendly fire as well as normal scoring. To run the Client, have the main program running at the player add screen, open a new Visual Studio Code window and open only the Client.java file. Compile and run the file. With the key board follow the prompts and enter the Equipment ID for the player hitting and the player being hit in the following format 1:2 . In the event of two Equipment ID numbers on the same team, the event will call friendly fire and return the equipment id that did the friendly fire. If a player hits the other team's base a stylized "B" will appear next to the player's name until the end of the game.
 
-Music Track Selection
-We've introduced a dynamic element to the game by implementing a random music track selection. Now, each gameplay session is accompanied by a soundtrack. Players can expect a diverse and engaging auditory experience as they navigate through the laser tag arena.
+## Sprint 4
+Music
+Now, each gameplay session is accompanied by a soundtrack. Players can expect a diverse and engaging auditory experience as they navigate through the laser tag arena.
 
 Stylized "B" for Base Hits
 To provide instant feedback and enhance the visual cues during gameplay, we've added a stylized "B" that appears whenever a player successfully hits the base. This visual indicator not only acknowledges the player's achievement but also makes every interaction with the base.
