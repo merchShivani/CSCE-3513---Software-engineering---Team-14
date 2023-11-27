@@ -29,7 +29,7 @@ class Model
 	int frameCounter = 0;
 
 	// Gameplay Timer // Minute // Seconds
-	int gamePlayTimeM = 1;
+	int gamePlayTimeM = 6;
 	int gamePlayTimeS = 0;
 
 	// Is the User entering information for the players
