@@ -14,6 +14,8 @@ public class Player implements Comparable <Player> {
     // Red == 0, Green == 1
     int team;
 
+    private boolean hasScoredOnBase = false;
+
     Player() {
         this.playerID = -1;
         this.playerCodeName = "";
@@ -22,6 +24,7 @@ public class Player implements Comparable <Player> {
         this.highscore = -1;
         this.menux = -1;
         this.menuy = -1;
+        this.hasScoredOnBase = false;
     }
 
     Player(int playerID, String playerCodeName, int menux, int menuy)
@@ -70,7 +73,17 @@ public class Player implements Comparable <Player> {
     public int getHighScore() {return highscore;}
     public int getEquipmentID() {return equipmentID;}
     public int getCurrentScore() {return currentScore;}
+
+
     
+    public boolean hasScoredOnBase() {
+        return hasScoredOnBase;
+    }
+
+    public void setScoredOnBase(boolean hasScored) {
+        this.hasScoredOnBase = hasScored;
+    }
+
     @Override
     public String toString() {
         return "Player ID: " + playerID +
