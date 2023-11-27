@@ -78,9 +78,8 @@ class Model
 	AdvancedPlayer activeMusic;
 	InputStream inputStream;
 
-
-	// Change the Relative Path
-	String fileName = "Audio/Track01.mp3";
+	
+	String fileName = "Track01.mp3";
 	Music music = new Music(fileName);
 
 	final ConcurrentLinkedQueue<String> mainToServer = new ConcurrentLinkedQueue<String>();
